@@ -14,8 +14,8 @@ const state = { status: "all", genre: "all" };
 /* genre chips from data */
 const genres = [...new Set(SITES.map(s => s.genreKey))];
 genreGroup.insertAdjacentHTML("beforeend",
-  `<button class="chip is-on" data-genre="all">All</button>` +
-  genres.map(g => `<button class="chip" data-genre="${g}">${g[0].toUpperCase() + g.slice(1)}</button>`).join(""));
+  `<button class="chip is-on" data-genre="all">הכול</button>` +
+  genres.map(g => `<button class="chip" data-genre="${g}">${GENRES[g] || g}</button>`).join(""));
 
 function matches(site) {
   if (state.status === "available" && site.sold) return false;
@@ -36,8 +36,8 @@ function render() {
   const avail = list.filter(s => !s.sold).length;
   const soldN = list.length - avail;
   countEl.textContent = list.length === 0
-    ? "Nothing here — the shelf renews soon."
-    : `${list.length} piece${list.length > 1 ? "s" : ""} — ${avail} available · ${soldN} sold`;
+    ? "אין כאן כלום — המדף מתחדש בקרוב."
+    : `${list.length} יצירות — ${avail} זמינות · ${soldN} נמכרו`;
 }
 
 function wireChips(group, key) {

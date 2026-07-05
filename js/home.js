@@ -160,8 +160,10 @@ if (!REDUCED) {
     const pad = parseFloat(getComputedStyle(pin).paddingLeft) || 0;
     return Math.max(0, track.scrollWidth - (window.innerWidth - pad * 2));
   };
+  // in RTL the track lays out right-to-left, so it slides the other way
+  const dirSign = document.documentElement.dir === "rtl" ? 1 : -1;
   gsap.to(track, {
-    x: () => -getDistance(),
+    x: () => dirSign * getDistance(),
     ease: "none",
     scrollTrigger: {
       trigger: "#how",

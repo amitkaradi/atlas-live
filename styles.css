@@ -725,3 +725,56 @@ body.menu-open .nav .nav__burger{border-color:var(--line)}
 body.menu-open .nav .nav__burger i{background:transparent}
 body.menu-open .nav .nav__burger i::before,
 body.menu-open .nav .nav__burger i::after{background:var(--ink)}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEBREW / RTL LAYER — active when <html dir="rtl">
+   ═══════════════════════════════════════════════════════════════ */
+html[dir="rtl"] body{
+  --serif:"Frank Ruhl Libre", Georgia, serif;
+  --sans:"Assistant", -apple-system, sans-serif;
+}
+/* Hebrew has no uppercase — tracking is decorative, keep it modest */
+html[dir="rtl"] .nav__brand{letter-spacing:.2em;text-indent:.2em}
+html[dir="rtl"] .loader__mark{letter-spacing:.24em;text-indent:.24em}
+html[dir="rtl"] .hero__title{letter-spacing:.1em;text-indent:.1em}
+html[dir="rtl"] .eyebrow{letter-spacing:.16em}
+html[dir="rtl"] .nav__links a,html[dir="rtl"] .nav__cta,html[dir="rtl"] .btn,
+html[dir="rtl"] .badge,html[dir="rtl"] .chip,html[dir="rtl"] .filters__label,
+html[dir="rtl"] .card__genre,html[dir="rtl"] .counter span,
+html[dir="rtl"] .hero__kicker,html[dir="rtl"] .hero__scrollcue,
+html[dir="rtl"] .step__num,html[dir="rtl"] .pday__num,
+html[dir="rtl"] .piece__sub,html[dir="rtl"] .piece__crumb,
+html[dir="rtl"] .prov__when,html[dir="rtl"] .footer2 h4,
+html[dir="rtl"] .footer2__base,html[dir="rtl"] .figure figcaption,
+html[dir="rtl"] .modal__status{letter-spacing:.06em}
+
+/* physical left/right flips */
+html[dir="rtl"] .alive__copy{left:auto;right:clamp(24px,7vw,110px)}
+html[dir="rtl"] .alive__scrim{
+  background:linear-gradient(to left,rgba(20,16,10,.72) 0%,rgba(20,16,10,.25) 55%,transparent 100%);
+}
+html[dir="rtl"] .preview .p-media{right:auto;left:12px}
+html[dir="rtl"] .pricing__list li{padding:13px 30px 13px 0}
+html[dir="rtl"] .pricing__list li::before{left:auto;right:2px}
+html[dir="rtl"] .piece__features li{padding:12px 30px 12px 0}
+html[dir="rtl"] .piece__features li::before{left:auto;right:2px}
+html[dir="rtl"] .join__perks li{padding:13px 30px 13px 0}
+html[dir="rtl"] .join__perks li::before{left:auto;right:2px}
+html[dir="rtl"] .prov{border-left:none;border-right:1px solid var(--line);padding-left:0;padding-right:34px}
+html[dir="rtl"] .prov li::before{left:auto;right:-39.5px}
+html[dir="rtl"] .creators__terms strong{margin-right:0;margin-left:6px}
+html[dir="rtl"] .faq__q{text-align:right}
+html[dir="rtl"] .filters__count{margin-left:0;margin-right:auto}
+@media(max-width:700px){html[dir="rtl"] .filters__count{margin-right:0}}
+
+/* browser-chrome bar inside the mini previews stays LTR like a real browser */
+html[dir="rtl"] .card__bar{direction:ltr}
+
+/* emails and URLs are typed left-to-right */
+html[dir="rtl"] input[type="email"],html[dir="rtl"] input[type="url"]{direction:ltr;text-align:left}
+
+/* Hebrew has no italics — synthesized slant looks wrong, keep upright */
+html[dir="rtl"] .hero__tagline,html[dir="rtl"] .pricing__note,
+html[dir="rtl"] .footer2__tag,html[dir="rtl"] .filters__count,
+html[dir="rtl"] .waitlist__ok,html[dir="rtl"] .apply__ok,
+html[dir="rtl"] .piece__hint,html[dir="rtl"] .footer__mid{font-style:normal}

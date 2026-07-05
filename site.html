@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Piece — ATLAS</title>
-<meta name="description" content="A one-of-one website from the Atlas gallery.">
+<title>יצירה — אטלס</title>
+<meta name="description" content="אתר בן יחיד מגלריית אטלס.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F4F1EA'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%231A1712'>A</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F4F1EA'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%231A1712'>א</text></svg>">
 </head>
 <body data-page="gallery">
 
 <div class="grain" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
-  <a class="nav__brand" href="index.html">ATLAS</a>
-  <nav class="nav__links" aria-label="Primary">
-    <a href="gallery.html" data-nav="gallery">Gallery</a>
-    <a href="pricing.html" data-nav="pricing">Pricing</a>
-    <a href="creators.html" data-nav="creators">Creators</a>
-    <a href="manifesto.html" data-nav="manifesto">Manifesto</a>
-    <a href="join.html" class="nav__join-mobile">Claim the next one</a>
+  <a class="nav__brand" href="index.html">אטלס</a>
+  <nav class="nav__links" aria-label="ניווט ראשי">
+    <a href="gallery.html" data-nav="gallery">גלריה</a>
+    <a href="pricing.html" data-nav="pricing">תמחור</a>
+    <a href="creators.html" data-nav="creators">ליוצרים</a>
+    <a href="manifesto.html" data-nav="manifesto">מניפסט</a>
+    <a href="join.html" class="nav__join-mobile">לתפוס את הבא</a>
   </nav>
-  <a class="nav__cta" href="join.html">Claim the next one</a>
-  <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false"><i></i></button>
+  <a class="nav__cta" href="join.html">לתפוס את הבא</a>
+  <button class="nav__burger" id="navBurger" aria-label="תפריט" aria-expanded="false"><i></i></button>
 </header>
 
 <main>
@@ -36,7 +36,7 @@
       <div class="piece__palette" id="piecePalette"></div>
     </div>
     <div class="piece__body">
-      <p class="piece__crumb"><a href="gallery.html">The Gallery</a> <span aria-hidden="true">·</span> <b id="crumbName"></b></p>
+      <p class="piece__crumb"><a href="gallery.html">הגלריה</a> <span aria-hidden="true">·</span> <b id="crumbName"></b></p>
       <h1 class="piece__title" id="pieceName"></h1>
       <p class="piece__sub" id="pieceSub"></p>
       <div class="piece__price-row">
@@ -47,20 +47,20 @@
       <ul class="piece__features" id="pieceFeatures"></ul>
       <div class="piece__meta" id="pieceMeta"></div>
       <div class="piece__actions">
-        <button class="btn btn--gold" id="pieceAcquire">Acquire this site</button>
+        <button class="btn btn--gold" id="pieceAcquire">לרכוש את האתר</button>
         <span class="piece__hint" id="pieceHint"></span>
-        <button class="piece__release" id="pieceRelease" hidden>Release the hold</button>
+        <button class="piece__release" id="pieceRelease" hidden>לשחרר את השמירה</button>
       </div>
     </div>
   </section>
 
   <section class="provenance">
-    <h2>Provenance</h2>
+    <h2>תיעוד</h2>
     <ol class="prov" id="prov"></ol>
   </section>
 
   <section class="related">
-    <h2 class="reveal">Still on the shelf</h2>
+    <h2 class="reveal">עדיין על המדף</h2>
     <div class="gallery__grid" id="relatedGrid"></div>
   </section>
 
@@ -69,27 +69,27 @@
 <footer class="footer2">
   <div class="footer2__grid">
     <div>
-      <div class="footer2__brand">ATLAS</div>
-      <p class="footer2__tag">Every site sold here exists exactly once.</p>
+      <div class="footer2__brand">אטלס</div>
+      <p class="footer2__tag">כל אתר שנמכר כאן קיים פעם אחת בלבד.</p>
     </div>
     <div>
-      <h4>Marketplace</h4>
+      <h4>מרקטפלייס</h4>
       <ul>
-        <li><a href="gallery.html">The Gallery</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="join.html">Private waitlist</a></li>
+        <li><a href="gallery.html">הגלריה</a></li>
+        <li><a href="pricing.html">תמחור</a></li>
+        <li><a href="join.html">רשימת המתנה</a></li>
       </ul>
     </div>
     <div>
-      <h4>Studio</h4>
+      <h4>סטודיו</h4>
       <ul>
-        <li><a href="creators.html">For creators</a></li>
-        <li><a href="creators.html#apply">Apply</a></li>
-        <li><a href="manifesto.html">Manifesto</a></li>
+        <li><a href="creators.html">ליוצרים</a></li>
+        <li><a href="creators.html#apply">הגשת מועמדות</a></li>
+        <li><a href="manifesto.html">מניפסט</a></li>
       </ul>
     </div>
     <div>
-      <h4>Atlas</h4>
+      <h4>אטלס</h4>
       <ul>
         <li><a href="mailto:hello@atlassstudio.com">hello@atlassstudio.com</a></li>
         <li><a href="https://atlassstudio.com" target="_blank" rel="noopener">atlassstudio.com</a></li>
@@ -97,8 +97,8 @@
     </div>
   </div>
   <div class="footer2__base">
-    <span>ATLAS © 2026</span>
-    <span>One site. One owner.</span>
+    <span>אטלס © 2026</span>
+    <span>אתר אחד. בעלים אחד.</span>
   </div>
 </footer>
 

@@ -1,51 +1,51 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Gallery — ATLAS</title>
-<meta name="description" content="Every piece in the Atlas gallery is a real, running website that exists exactly once. Available pieces leave the shelf forever when bought.">
+<title>הגלריה — אטלס</title>
+<meta name="description" content="כל יצירה בגלריית אטלס היא אתר אמיתי ורץ שקיים פעם אחת בלבד. יצירה שנקנתה יורדת מהמדף לתמיד.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F4F1EA'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%231A1712'>A</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F4F1EA'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%231A1712'>א</text></svg>">
 </head>
 <body data-page="gallery">
 
 <div class="grain" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
-  <a class="nav__brand" href="index.html">ATLAS</a>
-  <nav class="nav__links" aria-label="Primary">
-    <a href="gallery.html" data-nav="gallery">Gallery</a>
-    <a href="pricing.html" data-nav="pricing">Pricing</a>
-    <a href="creators.html" data-nav="creators">Creators</a>
-    <a href="manifesto.html" data-nav="manifesto">Manifesto</a>
-    <a href="join.html" class="nav__join-mobile">Claim the next one</a>
+  <a class="nav__brand" href="index.html">אטלס</a>
+  <nav class="nav__links" aria-label="ניווט ראשי">
+    <a href="gallery.html" data-nav="gallery">גלריה</a>
+    <a href="pricing.html" data-nav="pricing">תמחור</a>
+    <a href="creators.html" data-nav="creators">ליוצרים</a>
+    <a href="manifesto.html" data-nav="manifesto">מניפסט</a>
+    <a href="join.html" class="nav__join-mobile">לתפוס את הבא</a>
   </nav>
-  <a class="nav__cta" href="join.html">Claim the next one</a>
-  <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false"><i></i></button>
+  <a class="nav__cta" href="join.html">לתפוס את הבא</a>
+  <button class="nav__burger" id="navBurger" aria-label="תפריט" aria-expanded="false"><i></i></button>
 </header>
 
 <main>
 
   <section class="page-hero">
-    <p class="eyebrow reveal">The Gallery</p>
-    <h1 class="display reveal">On the shelf, today.</h1>
-    <p class="lede reveal">Every piece is a real, running website that exists exactly once.
-    When a card goes dark, it's gone — kept here only as provenance.</p>
+    <p class="eyebrow reveal">הגלריה</p>
+    <h1 class="display reveal">על המדף, היום.</h1>
+    <p class="lede reveal">כל יצירה היא אתר אמיתי ורץ שקיים פעם אחת בלבד.
+    כשכרטיס מחשיך — הוא איננו, ונשאר כאן רק כתיעוד.</p>
   </section>
 
-  <section class="filters" aria-label="Filter the gallery">
-    <div class="filters__group" id="statusFilters" role="group" aria-label="Status">
-      <span class="filters__label">Status</span>
-      <button class="chip is-on" data-status="all">All</button>
-      <button class="chip" data-status="available">Available</button>
-      <button class="chip" data-status="sold">Sold</button>
+  <section class="filters" aria-label="סינון הגלריה">
+    <div class="filters__group" id="statusFilters" role="group" aria-label="סטטוס">
+      <span class="filters__label">סטטוס</span>
+      <button class="chip is-on" data-status="all">הכול</button>
+      <button class="chip" data-status="available">זמינים</button>
+      <button class="chip" data-status="sold">נמכרו</button>
     </div>
-    <div class="filters__group" id="genreFilters" role="group" aria-label="Genre">
-      <span class="filters__label">Genre</span>
+    <div class="filters__group" id="genreFilters" role="group" aria-label="ז׳אנר">
+      <span class="filters__label">ז׳אנר</span>
       <!-- chips injected -->
     </div>
     <p class="filters__count" id="filterCount"></p>
@@ -57,12 +57,12 @@
 
   <section class="teaser">
     <div>
-      <p class="eyebrow reveal">Missed one?</p>
-      <h2 class="display reveal">The shelf renews.</h2>
-      <p class="lede reveal">When a piece sells, its creator builds a brand-new one-of-one.
-      The waitlist sees it 48 hours before anyone else.</p>
+      <p class="eyebrow reveal">פספסתם אחד?</p>
+      <h2 class="display reveal">המדף מתחדש.</h2>
+      <p class="lede reveal">כשיצירה נמכרת, היוצר שלה בונה בן יחיד חדש לגמרי.
+      רשימת ההמתנה רואה אותו 48 שעות לפני כולם.</p>
     </div>
-    <a class="btn btn--gold reveal" href="join.html">Join the private waitlist</a>
+    <a class="btn btn--gold reveal" href="join.html">להצטרף לרשימת ההמתנה</a>
   </section>
 
 </main>
@@ -70,27 +70,27 @@
 <footer class="footer2">
   <div class="footer2__grid">
     <div>
-      <div class="footer2__brand">ATLAS</div>
-      <p class="footer2__tag">Every site sold here exists exactly once.</p>
+      <div class="footer2__brand">אטלס</div>
+      <p class="footer2__tag">כל אתר שנמכר כאן קיים פעם אחת בלבד.</p>
     </div>
     <div>
-      <h4>Marketplace</h4>
+      <h4>מרקטפלייס</h4>
       <ul>
-        <li><a href="gallery.html">The Gallery</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="join.html">Private waitlist</a></li>
+        <li><a href="gallery.html">הגלריה</a></li>
+        <li><a href="pricing.html">תמחור</a></li>
+        <li><a href="join.html">רשימת המתנה</a></li>
       </ul>
     </div>
     <div>
-      <h4>Studio</h4>
+      <h4>סטודיו</h4>
       <ul>
-        <li><a href="creators.html">For creators</a></li>
-        <li><a href="creators.html#apply">Apply</a></li>
-        <li><a href="manifesto.html">Manifesto</a></li>
+        <li><a href="creators.html">ליוצרים</a></li>
+        <li><a href="creators.html#apply">הגשת מועמדות</a></li>
+        <li><a href="manifesto.html">מניפסט</a></li>
       </ul>
     </div>
     <div>
-      <h4>Atlas</h4>
+      <h4>אטלס</h4>
       <ul>
         <li><a href="mailto:hello@atlassstudio.com">hello@atlassstudio.com</a></li>
         <li><a href="https://atlassstudio.com" target="_blank" rel="noopener">atlassstudio.com</a></li>
@@ -98,8 +98,8 @@
     </div>
   </div>
   <div class="footer2__base">
-    <span>ATLAS © 2026</span>
-    <span>One site. One owner.</span>
+    <span>אטלס © 2026</span>
+    <span>אתר אחד. בעלים אחד.</span>
   </div>
 </footer>
 

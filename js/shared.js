@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   ATLAS v2 — shared data + helpers (loaded first on every page)
+   אטלס v2 — נתונים משותפים + עזרים (נטען ראשון בכל עמוד)
    ═══════════════════════════════════════════════════════════════ */
 "use strict";
 
@@ -7,86 +7,94 @@ const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 if (REDUCED) document.documentElement.classList.add("no-motion");
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
-/* ── the shelf ───────────────────────────────────────────────── */
+/* ── המדף ────────────────────────────────────────────────────── */
+const GENRES = {
+  hospitality: "אירוח",
+  commerce: "מסחר",
+  editorial: "מגזין",
+  portfolio: "פורטפוליו",
+  professional: "משרדים"
+};
+
 const SITES = [
   {
-    id: "maison-lumiere", name: "Maison Lumière", genre: "Patisserie & café", genreKey: "hospitality",
-    price: 3400, sold: false, creator: "Noa B.", built: "June 2026",
-    desc: "A warm, sugared editorial for a neighborhood patisserie — menu, ordering, and a morning-light photo journal.",
-    story: "Maison Lumière was built around one idea: a bakery's website should feel like the first hour of the morning. The palette is butter and shadow, the typography sets like icing, and the menu reads as a single unhurried page. An ordering flow sits quietly behind the scenes — present when needed, invisible when not. It loads like a whisper and never raises its voice.",
-    features: ["Morning-light photo journal", "Menu with quiet ordering flow", "Opening-hours ribbon that knows the day", "Owner-editable content, no dashboard maze"],
+    id: "maison-lumiere", name: "לומייר", genre: "קונדיטוריה וקפה", genreKey: "hospitality",
+    price: 12900, sold: false, creator: "נועה ב׳", built: "יוני 2026",
+    desc: "מגזין חם ומסוכר לקונדיטוריה שכונתית — תפריט, הזמנות ויומן צילום באור של בוקר.",
+    story: "לומייר נבנה סביב רעיון אחד: אתר של מאפייה צריך להרגיש כמו השעה הראשונה של הבוקר. הפלטה היא חמאה וצל, הטיפוגרפיה מתייצבת כמו זילוף, והתפריט נקרא כעמוד אחד רגוע. מערכת ההזמנות יושבת בשקט מאחורי הקלעים — נוכחת כשצריך, בלתי נראית כשלא. הוא נטען כמו לחישה ולעולם לא מרים את הקול.",
+    features: ["יומן צילום באור בוקר", "תפריט עם הזמנה שקטה", "רצועת שעות פתיחה שיודעת איזה יום היום", "תוכן שהבעלים עורכים לבד — בלי מבוך של דשבורדים"],
     theme: { bg: "#FBF6EE", ink: "#3A2E22", accent: "#B0793E", media: "linear-gradient(135deg,#E8CBA8,#B0793E)" },
-    headline: "Baked before sunrise.", pages: 5, stack: "Static · CMS-ready"
+    headline: "נאפה לפני הזריחה.", pages: 5, stack: "סטטי · מוכן ל-CMS"
   },
   {
-    id: "verre", name: "Verre", genre: "Glassware atelier", genreKey: "commerce",
-    price: 3400, sold: false, creator: "Dan K.", built: "June 2026",
-    desc: "Cool, transparent, precise — a catalogue for hand-blown glass with product stories told in reflections.",
-    story: "Verre treats every object like it deserves a museum plinth. Twelve pieces, twelve stories, each photographed against light instead of backdrops. The commerce flow was built for low volume and high intention: no urgency banners, no cart psychology — a considered purchase, made slowly. The glass does the selling.",
-    features: ["Catalogue of twelve, told in reflections", "Quiet commerce flow — no urgency tricks", "Provenance note on every piece", "Studio-visit booking page"],
+    id: "verre", name: "ורר", genre: "סטודיו זכוכית", genreKey: "commerce",
+    price: 12900, sold: false, creator: "דן ק׳", built: "יוני 2026",
+    desc: "קריר, שקוף, מדויק — קטלוג לזכוכית מנופחת ביד, עם סיפורי מוצר שמסופרים בהשתקפויות.",
+    story: "ורר מתייחס לכל חפץ כאילו מגיע לו כן תצוגה במוזיאון. שתים־עשרה יצירות, שנים־עשר סיפורים, כל אחת מצולמת מול אור במקום מול רקע. תהליך הרכישה נבנה לנפח נמוך ולכוונה גבוהה: בלי באנרים של דחיפות, בלי פסיכולוגיית עגלה — קנייה שקולה, שנעשית לאט. הזכוכית היא זו שמוכרת.",
+    features: ["קטלוג של שתים־עשרה, מסופר בהשתקפויות", "רכישה שקטה — בלי טריקים של דחיפות", "תעודת מקור לכל יצירה", "עמוד תיאום ביקור בסטודיו"],
     theme: { bg: "#F2F5F6", ink: "#22303A", accent: "#5E8CA7", media: "linear-gradient(135deg,#C9DAE3,#5E8CA7)" },
-    headline: "Shaped by breath.", pages: 6, stack: "Static · Commerce"
+    headline: "מעוצב בנשימה.", pages: 6, stack: "סטטי · מסחר"
   },
   {
-    id: "solstice", name: "Solstice", genre: "Wellness retreat", genreKey: "hospitality",
-    price: 3400, sold: false, creator: "Maya R.", built: "May 2026",
-    desc: "A slow-scrolling retreat site — schedule, rooms, and a booking inquiry flow wrapped in dune tones.",
-    story: "Solstice scrolls at the pace of the place it describes. Rooms are shown in natural light only. The schedule breathes — one retreat at a time, never a grid of urgency. The booking flow asks three questions and then gets out of the way. Built for a retreat that fills by word of mouth and wants a website that behaves the same way.",
-    features: ["Slow-scroll room tour", "One-retreat-at-a-time schedule", "Three-question booking inquiry", "Dune-tone palette, zero stock photography"],
+    id: "solstice", name: "סולסטיס", genre: "ריטריט", genreKey: "hospitality",
+    price: 12900, sold: false, creator: "מאיה ר׳", built: "מאי 2026",
+    desc: "אתר שנגלל לאט — לוח מפגשים, חדרים וטופס הזמנה עטופים בגווני דיונה.",
+    story: "סולסטיס נגלל בקצב של המקום שהוא מתאר. החדרים מוצגים באור טבעי בלבד. הלוח נושם — ריטריט אחד בכל פעם, אף פעם לא רשת של דחיפות. טופס ההזמנה שואל שלוש שאלות ואז זז מהדרך. נבנה לריטריט שמתמלא מפה לאוזן, ורוצה אתר שמתנהג בדיוק כך.",
+    features: ["סיור חדרים בגלילה איטית", "לוח של ריטריט אחד בכל פעם", "טופס הזמנה של שלוש שאלות", "פלטת דיונות, אפס תמונות סטוק"],
     theme: { bg: "#F5F1E8", ink: "#3D3A2E", accent: "#8A8B5C", media: "linear-gradient(135deg,#D9D4B8,#8A8B5C)" },
-    headline: "Arrive slowly.", pages: 7, stack: "Static · Booking"
+    headline: "מגיעים לאט.", pages: 7, stack: "סטטי · הזמנות"
   },
   {
-    id: "cartograph", name: "Cartograph", genre: "Travel journal", genreKey: "editorial",
-    price: 3400, sold: false, creator: "Noa B.", built: "April 2026",
-    desc: "An editorial travel journal with route maps drawn as engravings and photo essays that breathe on scroll.",
-    story: "Cartograph is for a writer who travels, not a traveler who posts. Routes are drawn as engravings, essays are set in long measure, and photographs breathe as the reader scrolls. A newsletter lives at the end of every piece — reader-supported, no paywall theatrics. The site's only metric is whether people finish the essays.",
-    features: ["Engraving-style route maps", "Long-form essay layout, built to be finished", "Reader-supported newsletter flow", "Offline reading mode"],
+    id: "cartograph", name: "קרטוגרף", genre: "יומן מסעות", genreKey: "editorial",
+    price: 12900, sold: false, creator: "נועה ב׳", built: "אפריל 2026",
+    desc: "יומן מסע מגזיני — מפות מסלול מצוירות כתחריטים ומסות צילום שנושמות בגלילה.",
+    story: "קרטוגרף נועד לסופרת שנוסעת, לא לנוסעת שמפרסמת. המסלולים מצוירים כתחריטים, המסות מסודרות בשורות ארוכות, והצילומים נושמים בזמן שהקוראים גוללים. ניוזלטר יושב בסוף כל טקסט — נתמך קוראים, בלי תיאטרון של חומות תשלום. המדד היחיד של האתר: האם מסיימים לקרוא.",
+    features: ["מפות מסלול בסגנון תחריט", "פריסת מסות ארוכות, בנויה כדי שיסיימו אותן", "ניוזלטר נתמך־קוראים", "מצב קריאה לא מקוון"],
     theme: { bg: "#F4EFE6", ink: "#2E2A24", accent: "#A0563B", media: "linear-gradient(135deg,#DBC3AE,#A0563B)" },
-    headline: "Roads, annotated.", pages: 8, stack: "Static · Newsletter"
+    headline: "דרכים, עם הערות.", pages: 8, stack: "סטטי · ניוזלטר"
   },
   {
-    id: "meridian", name: "Meridian", genre: "Architecture practice", genreKey: "portfolio",
-    price: 3400, sold: false, creator: "Dan K.", built: "June 2026",
-    desc: "A drafting-table portfolio for a small architecture practice — projects shown in plan, section, and light.",
-    story: "Meridian shows buildings the way architects think about them: plan first, photograph second. Each project opens as a folio — drawings, then models, then the finished light. Type is set on a strict grid that never announces itself. A practice page lists people and principles in the same breath, because in a small office they are the same thing.",
-    features: ["Folio layout: plan → model → light", "Strict modular grid, quietly kept", "Practice & principles page", "Print-ready project sheets"],
+    id: "meridian", name: "מרידיאן", genre: "משרד אדריכלות", genreKey: "portfolio",
+    price: 12900, sold: false, creator: "דן ק׳", built: "יוני 2026",
+    desc: "פורטפוליו של שולחן שרטוט למשרד אדריכלות קטן — פרויקטים בתכנית, בחתך ובאור.",
+    story: "מרידיאן מציג בניינים כמו שאדריכלים חושבים עליהם: קודם תכנית, אחר כך צילום. כל פרויקט נפתח כתיק עבודות — שרטוטים, אחר כך מודלים, ולבסוף האור הבנוי. הטיפוגרפיה יושבת על גריד קפדני שאף פעם לא מכריז על עצמו. עמוד המשרד מציג אנשים ועקרונות באותה נשימה, כי במשרד קטן הם אותו הדבר.",
+    features: ["תיק עבודות: תכנית ← מודל ← אור", "גריד מודולרי קפדני, שנשמר בשקט", "עמוד משרד ועקרונות", "גיליונות פרויקט מוכנים להדפסה"],
     theme: { bg: "#F1F0EC", ink: "#2B2B28", accent: "#6E6A5E", media: "linear-gradient(135deg,#CFCCC2,#6E6A5E)" },
-    headline: "Drawn, then built.", pages: 6, stack: "Static · Folio"
+    headline: "משורטט. ואז נבנה.", pages: 6, stack: "סטטי · תיק עבודות"
   },
   {
-    id: "atelier-noir", name: "Atelier Noir", genre: "Photography studio", genreKey: "portfolio",
-    price: 3400, sold: true, creator: "Maya R.", built: "March 2026",
-    desc: "Sold. A charcoal-dark portfolio with film-grain galleries and a private client room.",
-    story: "Atelier Noir was the first piece to leave the shelf. A charcoal-dark portfolio where photographs are the only light source — film-grain galleries, a private client room behind a single key, and typography that stays out of the frame. It belongs to one photographer now, personalized down to the letterhead. This page remains as provenance.",
-    features: ["Film-grain galleries, dark-room pacing", "Private client rooms", "Single-key access, no accounts", "Personalized and sealed for its owner"],
+    id: "atelier-noir", name: "אטלייה נואר", genre: "סטודיו צילום", genreKey: "portfolio",
+    price: 12900, sold: true, creator: "מאיה ר׳", built: "מרץ 2026",
+    desc: "נמכר. פורטפוליו כהה כפחם עם גלריות בגרעין פילם וחדר לקוחות פרטי.",
+    story: "אטלייה נואר היה היצירה הראשונה שירדה מהמדף. פורטפוליו כהה כפחם שבו הצילומים הם מקור האור היחיד — גלריות בגרעין פילם, חדר לקוחות פרטי מאחורי מפתח אחד, וטיפוגרפיה שנשארת מחוץ לפריים. היום הוא שייך לצלם אחד, מותאם עד לנייר המכתבים. העמוד הזה נשאר כאן כתיעוד בלבד.",
+    features: ["גלריות בגרעין פילם, בקצב של חדר חושך", "חדרי לקוחות פרטיים", "כניסה במפתח אחד, בלי חשבונות", "הותאם ונחתם עבור בעליו"],
     theme: { bg: "#191817", ink: "#EDEAE4", accent: "#C9A45C", media: "linear-gradient(135deg,#3B3835,#C9A45C)" },
-    headline: "Light, kept.", pages: 5, stack: "Static · Client rooms"
+    headline: "אור, שנשמר.", pages: 5, stack: "סטטי · חדרי לקוחות"
   },
   {
-    id: "ledger-vine", name: "Ledger & Vine", genre: "Boutique counsel", genreKey: "professional",
-    price: 3400, sold: true, creator: "Noa B.", built: "February 2026",
-    desc: "Sold. A paper-and-ink presence for a two-partner firm — practice notes and a considered contact ritual.",
-    story: "Ledger & Vine reads like good stationery. Practice notes instead of service pages, engagements instead of testimonials, and a contact ritual that filters for seriousness without saying so. It was bought within a week of listing by the firm it now belongs to — personalized, sealed, and off the shelf forever.",
-    features: ["Practice notes, not service pages", "Considered contact ritual", "Secure document handoff", "Sealed for a two-partner firm"],
+    id: "ledger-vine", name: "לדג׳ר את וויין", genre: "משרד עו״ד בוטיק", genreKey: "professional",
+    price: 12900, sold: true, creator: "נועה ב׳", built: "פברואר 2026",
+    desc: "נמכר. נוכחות של נייר ודיו למשרד של שני שותפים — רשימות פרקטיקה וטקס יצירת קשר שקול.",
+    story: "לדג׳ר את וויין נקרא כמו נייר מכתבים טוב. רשימות פרקטיקה במקום עמודי שירותים, תיקים שנוהלו במקום המלצות, וטקס יצירת קשר שמסנן רצינות בלי להגיד את זה. הוא נקנה בתוך שבוע מהרגע שעלה למדף — על ידי המשרד שהוא שייך לו היום. מותאם, חתום, ומחוץ למדף לתמיד.",
+    features: ["רשימות פרקטיקה, לא עמודי שירותים", "טקס יצירת קשר שקול", "מסירת מסמכים מאובטחת", "נחתם עבור משרד של שני שותפים"],
     theme: { bg: "#F0EDE6", ink: "#26303B", accent: "#7A6A45", media: "linear-gradient(135deg,#C8CCC9,#7A6A45)" },
-    headline: "Counsel, quietly.", pages: 4, stack: "Static · Secure forms"
+    headline: "ייעוץ, בשקט.", pages: 4, stack: "סטטי · טפסים מאובטחים"
   },
   {
-    id: "umbra", name: "Umbra", genre: "Perfumery", genreKey: "commerce",
-    price: 3400, sold: true, creator: "Maya R.", built: "January 2026",
-    desc: "Sold. A dusk-toned maison for a small-batch perfumery — scent stories told before products.",
-    story: "Umbra sells scent by telling you where it comes from. Each fragrance opens as a place — a season, an hour, a memory — before it ever shows a bottle. The shop is three pages deep and feels like a private viewing. It was acquired by the perfumery it was imagined for, which is exactly how Atlas is supposed to work.",
-    features: ["Scent stories before products", "Three-page private-viewing shop", "Batch provenance per bottle", "Sealed for its maison"],
+    id: "umbra", name: "אומברה", genre: "בית בושם", genreKey: "commerce",
+    price: 12900, sold: true, creator: "מאיה ר׳", built: "ינואר 2026",
+    desc: "נמכר. מזון בגווני בין־ערביים לבית בושם בייצור קטן — סיפורי ריח לפני מוצרים.",
+    story: "אומברה מוכר ריח דרך המקום שממנו הוא מגיע. כל בושם נפתח כמקום — עונה, שעה, זיכרון — לפני שהוא בכלל מראה בקבוק. החנות עמוקה שלושה עמודים ומרגישה כמו תצוגה פרטית. הוא נרכש על ידי בית הבושם שעבורו הוא נחלם — וכך בדיוק אטלס אמור לעבוד.",
+    features: ["סיפורי ריח לפני מוצרים", "חנות של שלושה עמודים, כמו תצוגה פרטית", "תיעוד אצווה לכל בקבוק", "נחתם עבור הבית שלו"],
     theme: { bg: "#1E1A20", ink: "#EAE3EE", accent: "#A98BC4", media: "linear-gradient(135deg,#4A3F52,#A98BC4)" },
-    headline: "Worn after dark.", pages: 5, stack: "Static · Commerce"
+    headline: "נלבש אחרי רדת החשיכה.", pages: 5, stack: "סטטי · מסחר"
   }
 ];
 
 const siteById = id => SITES.find(s => s.id === id) || null;
-const money = n => "$" + n.toLocaleString();
+const money = n => "₪" + n.toLocaleString();
 
-/* ── reservations (functional storefront state) ──────────────── */
+/* ── שמירות (מצב חנות פונקציונלי) ────────────────────────────── */
 const RES_KEY = "atlas-reserved";
 function getReserved() {
   try { return JSON.parse(localStorage.getItem(RES_KEY)) || []; } catch (_) { return []; }
@@ -101,12 +109,12 @@ function release(id) {
   try { localStorage.setItem(RES_KEY, JSON.stringify(r)); } catch (_) {}
 }
 
-/* ── card / preview markup ───────────────────────────────────── */
+/* ── תבניות כרטיס / תצוגה חיה ────────────────────────────────── */
 function previewHTML(site) {
   const t = site.theme;
   return `
   <div class="card__frame">
-    <div class="card__bar"><i></i><i></i><i></i><em>${site.id}.one — live</em></div>
+    <div class="card__bar"><i></i><i></i><i></i><em>${site.id}.one · חי</em></div>
     <div class="preview" style="background:${t.bg};color:${t.ink}">
       <div class="p-cursor" aria-hidden="true"></div>
       <div class="p-nav">
@@ -116,25 +124,25 @@ function previewHTML(site) {
       <div class="p-hero">
         <div class="p-head"><span class="p-type">${site.headline}</span></div>
         <div class="p-sub"></div>
-        <span class="p-btn" style="background:${t.accent};color:${t.bg}">Enter</span>
+        <span class="p-btn" style="background:${t.accent};color:${t.bg}">כניסה</span>
         <span class="p-media" style="--m:${t.media}"></span>
       </div>
       <div class="p-row"><b></b><b></b><b></b></div>
     </div>
-    ${site.sold ? '<span class="card__seal" title="Sold — sealed">A</span>' : ""}
+    ${site.sold ? '<span class="card__seal" title="נמכר — נחתם">א</span>' : ""}
   </div>`;
 }
 
 function statusBadge(site) {
-  if (site.sold) return '<span class="badge badge--sold">Sold</span>';
-  if (isReserved(site.id)) return '<span class="badge badge--reserved">Reserved</span>';
-  return '<span class="badge badge--live">Available now</span>';
+  if (site.sold) return '<span class="badge badge--sold">נמכר</span>';
+  if (isReserved(site.id)) return '<span class="badge badge--reserved">שמור</span>';
+  return '<span class="badge badge--live">זמין עכשיו</span>';
 }
 
 function cardHTML(site) {
   return `
   <a class="card reveal${site.sold ? " card--sold" : ""}" href="site.html?id=${site.id}"
-     data-id="${site.id}" aria-label="${site.name} — ${site.sold ? "sold" : "available"}">
+     data-id="${site.id}" aria-label="${site.name} — ${site.sold ? "נמכר" : "זמין"}">
     ${previewHTML(site)}
     <div class="card__meta">
       <h3 class="card__name">${site.name}</h3>
@@ -157,7 +165,7 @@ function bindCardHighlights(root) {
   });
 }
 
-/* ── media helpers ───────────────────────────────────────────── */
+/* ── עזרי מדיה ───────────────────────────────────────────────── */
 function loadImage(src) {
   return new Promise(resolve => {
     const img = new Image();

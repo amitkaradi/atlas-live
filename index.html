@@ -1,185 +1,185 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ATLAS — One site. One owner.</title>
-<meta name="description" content="A marketplace of one-of-one websites. Every site is built once and sold once. The moment it's bought, it leaves the shelf forever.">
+<title>אטלס — אתר אחד. בעלים אחד.</title>
+<meta name="description" content="מרקטפלייס של אתרים בני יחיד. כל אתר נבנה פעם אחת ונמכר פעם אחת. ברגע שהוא נקנה — הוא יורד מהמדף לתמיד.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F4F1EA'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%231A1712'>A</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F4F1EA'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%231A1712'>א</text></svg>">
 </head>
 <body data-page="home">
 
 <div class="grain" aria-hidden="true"></div>
 <div class="loader" id="loader" aria-hidden="true">
-  <div class="loader__mark">ATLAS</div>
+  <div class="loader__mark">אטלס</div>
   <div class="loader__bar"><span id="loaderBar"></span></div>
 </div>
 
 <header class="nav" id="nav">
-  <a class="nav__brand" href="index.html">ATLAS</a>
-  <nav class="nav__links" aria-label="Primary">
-    <a href="gallery.html" data-nav="gallery">Gallery</a>
-    <a href="pricing.html" data-nav="pricing">Pricing</a>
-    <a href="creators.html" data-nav="creators">Creators</a>
-    <a href="manifesto.html" data-nav="manifesto">Manifesto</a>
-    <a href="join.html" class="nav__join-mobile">Claim the next one</a>
+  <a class="nav__brand" href="index.html">אטלס</a>
+  <nav class="nav__links" aria-label="ניווט ראשי">
+    <a href="gallery.html" data-nav="gallery">גלריה</a>
+    <a href="pricing.html" data-nav="pricing">תמחור</a>
+    <a href="creators.html" data-nav="creators">ליוצרים</a>
+    <a href="manifesto.html" data-nav="manifesto">מניפסט</a>
+    <a href="join.html" class="nav__join-mobile">לתפוס את הבא</a>
   </nav>
-  <a class="nav__cta" href="join.html">Claim the next one</a>
-  <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false"><i></i></button>
+  <a class="nav__cta" href="join.html">לתפוס את הבא</a>
+  <button class="nav__burger" id="navBurger" aria-label="תפריט" aria-expanded="false"><i></i></button>
 </header>
 
 <main id="top">
 
-  <!-- ══ CINEMATIC HERO — scroll-scrub orbit ══ -->
+  <!-- ══ הירו קולנועי — אורביט בגלילה ══ -->
   <section class="hero" id="hero">
     <div class="hero__stage">
       <canvas id="orbitCanvas" class="hero__canvas" aria-hidden="true"></canvas>
       <div class="hero__vignette" aria-hidden="true"></div>
       <div class="hero__content">
-        <p class="hero__kicker" id="heroKicker">A marketplace of one-of-one websites</p>
-        <h1 class="hero__title" id="heroTitle" aria-label="ATLAS">
-          <span>A</span><span>T</span><span>L</span><span>A</span><span>S</span>
+        <p class="hero__kicker" id="heroKicker">מרקטפלייס של אתרים בני יחיד</p>
+        <h1 class="hero__title" id="heroTitle" aria-label="אטלס">
+          <span>א</span><span>ט</span><span>ל</span><span>ס</span>
         </h1>
-        <p class="hero__tagline" id="heroTagline">One site. One owner.</p>
+        <p class="hero__tagline" id="heroTagline">אתר אחד. בעלים אחד.</p>
       </div>
       <div class="hero__line hero__line--a" id="heroLineA">
-        <p>Every website here is built once.</p>
+        <p>כל אתר כאן נבנה פעם אחת.</p>
       </div>
       <div class="hero__line hero__line--b" id="heroLineB">
-        <p>Sold once. Then it leaves the shelf, forever.</p>
+        <p>נמכר פעם אחת. ואז יורד מהמדף, לתמיד.</p>
       </div>
       <div class="hero__scrollcue" id="scrollCue" aria-hidden="true">
-        <span>Scroll</span>
+        <span>גללו</span>
         <i></i>
       </div>
     </div>
   </section>
 
-  <!-- ══ EVERY SITE IS ALIVE — macro fly-through scrub ══ -->
+  <!-- ══ כל אתר כאן חי — מאקרו בגלילה ══ -->
   <section class="alive" id="alive">
     <div class="alive__stage">
       <video id="aliveVideo" class="alive__video" muted playsinline preload="auto"
              src="assets/video/c2_macro.mp4" aria-hidden="true"></video>
       <div class="alive__scrim" aria-hidden="true"></div>
       <div class="alive__copy">
-        <p class="eyebrow reveal">The living gallery</p>
-        <h2 class="display reveal">Every site is alive.</h2>
-        <p class="lede reveal">Nothing here is a template. Nothing is a mockup.
-        Each piece is a real, running website — clickable, responsive, already breathing.
-        Look closely. The cursor moves because it was built to be used.</p>
+        <p class="eyebrow reveal">הגלריה החיה</p>
+        <h2 class="display reveal">כל אתר כאן חי.</h2>
+        <p class="lede reveal">שום דבר כאן הוא לא תבנית. שום דבר הוא לא הדמיה.
+        כל יצירה היא אתר אמיתי ורץ — קליקבילי, רספונסיבי, כבר נושם.
+        תסתכלו טוב: הסמן זז כי מישהו בנה אותו כדי שישתמשו בו.</p>
       </div>
     </div>
   </section>
 
-  <!-- ══ HOW IT WORKS — four pinned steps ══ -->
+  <!-- ══ איך זה עובד — ארבעה צעדים נעוצים ══ -->
   <section class="how" id="how">
     <div class="how__pin" id="howPin">
       <div class="how__head">
-        <p class="eyebrow">How it works</p>
-        <h2 class="display">Four quiet steps.</h2>
+        <p class="eyebrow">איך זה עובד</p>
+        <h2 class="display">ארבעה צעדים שקטים.</h2>
       </div>
       <div class="how__track" id="howTrack">
         <article class="step">
           <span class="step__num">01</span>
-          <h3>Choose a living site</h3>
-          <p>Browse the gallery. Every piece is real, running, and one of one.</p>
+          <h3>בוחרים אתר חי</h3>
+          <p>מדפדפים בגלריה. כל יצירה אמיתית, רצה, ובת יחיד.</p>
         </article>
         <article class="step">
           <span class="step__num">02</span>
-          <h3>Buy it — it leaves the shelf</h3>
-          <p>The moment it's yours, it's gone for everyone else. Forever.</p>
+          <h3>קונים — והוא יורד מהמדף</h3>
+          <p>מהרגע שהוא שלכם, הוא איננו לכל השאר. לתמיד.</p>
         </article>
         <article class="step">
           <span class="step__num">03</span>
-          <h3>We personalize it, by a human</h3>
-          <p>Your name, your words, your imagery — tailored to your business by the creator's own hand.</p>
+          <h3>מתאימים אותו אליכם, ביד אנושית</h3>
+          <p>השם שלכם, המילים שלכם, התמונות שלכם — מותאם לעסק בידי היוצר עצמו.</p>
         </article>
         <article class="step">
           <span class="step__num">04</span>
-          <h3>The creator builds the next</h3>
-          <p>A brand-new one-of-one takes the empty slot. The shelf never repeats itself.</p>
+          <h3>היוצר בונה את הבא</h3>
+          <p>בן יחיד חדש לגמרי תופס את המקום שהתפנה. המדף לא חוזר על עצמו.</p>
         </article>
       </div>
       <div class="how__progress" aria-hidden="true"><span id="howBar"></span></div>
     </div>
   </section>
 
-  <!-- ══ FROM THE SHELF — featured pieces ══ -->
+  <!-- ══ מהמדף — יצירות נבחרות ══ -->
   <section class="gallery" id="featured">
     <div class="gallery__head">
-      <p class="eyebrow reveal">From the shelf</p>
-      <h2 class="display reveal">Three, currently breathing.</h2>
-      <p class="lede reveal">A glimpse of what's available today. Each exists exactly once.</p>
+      <p class="eyebrow reveal">מהמדף</p>
+      <h2 class="display reveal">שלושה, נושמים עכשיו.</h2>
+      <p class="lede reveal">הצצה למה שזמין היום. כל אחד קיים פעם אחת בלבד.</p>
     </div>
     <div class="gallery__grid" id="featuredGrid"><!-- injected --></div>
     <div class="gallery__more reveal">
-      <a class="btn btn--ink" href="gallery.html">Enter the gallery</a>
+      <a class="btn btn--ink" href="gallery.html">להיכנס לגלריה</a>
     </div>
   </section>
 
-  <!-- ══ EXCLUSIVITY ══ -->
+  <!-- ══ בלעדיות ══ -->
   <section class="excl" id="excl">
     <div class="excl__stage">
       <video id="exclVideo" class="excl__video" muted playsinline preload="auto"
              src="assets/video/c3_shelf.mp4" aria-hidden="true"></video>
       <div class="excl__scrim" aria-hidden="true"></div>
       <div class="excl__copy">
-        <h2 class="display display--onink reveal">Sold once.<br>Gone forever.</h2>
+        <h2 class="display display--onink reveal">נמכר פעם אחת.<br>נעלם לתמיד.</h2>
       </div>
     </div>
     <div class="excl__counters">
-      <div class="counter reveal"><strong data-count="27">0</strong><span>sites delivered</span></div>
-      <div class="counter reveal"><strong data-count="9">0</strong><span>creators in the studio</span></div>
-      <div class="counter reveal"><strong data-count="1">0</strong><span>owner, per site, ever</span></div>
-      <div class="counter reveal"><strong data-count="5">0</strong><span>days to first version</span></div>
+      <div class="counter reveal"><strong data-count="27">0</strong><span>אתרים נמסרו</span></div>
+      <div class="counter reveal"><strong data-count="9">0</strong><span>יוצרים בסטודיו</span></div>
+      <div class="counter reveal"><strong data-count="1">0</strong><span>בעלים לכל אתר, לתמיד</span></div>
+      <div class="counter reveal"><strong data-count="5">0</strong><span>ימים לגרסה ראשונה</span></div>
     </div>
   </section>
 
-  <!-- ══ PRICING TEASER ══ -->
+  <!-- ══ טיזר תמחור ══ -->
   <section class="teaser">
     <div>
-      <p class="eyebrow reveal">Pricing</p>
-      <h2 class="display reveal">One price.<br>No fine print.</h2>
-      <p class="lede reveal">$3,400, once. The site, the human personalization, the handover —
-      and a full refund, any reason, until the day you launch.</p>
+      <p class="eyebrow reveal">תמחור</p>
+      <h2 class="display reveal">מחיר אחד.<br>בלי אותיות קטנות.</h2>
+      <p class="lede reveal">‏₪12,900, פעם אחת. האתר, ההתאמה האנושית, המסירה —
+      והחזר מלא, מכל סיבה, עד יום העלייה לאוויר.</p>
     </div>
-    <a class="btn btn--gold reveal" href="pricing.html">See what's included</a>
+    <a class="btn btn--gold reveal" href="pricing.html">מה כלול</a>
   </section>
 
-  <!-- ══ CREATORS TEASER ══ -->
+  <!-- ══ טיזר יוצרים ══ -->
   <section class="split" style="background:var(--paper-deep)">
     <div class="split__media reveal">
       <video muted playsinline autoplay loop preload="metadata" data-ambient
              src="assets/video/c4_renew.mp4" aria-hidden="true"></video>
     </div>
     <div>
-      <p class="eyebrow reveal">The Creator Studio</p>
-      <h2 class="display reveal">Build one.<br>It sells.<br>Build the next.</h2>
-      <p class="lede reveal">Exclusive is worth more. You set the price, you keep 70%,
-      and your name stays on the piece wherever it lives.</p>
-      <a class="btn btn--ink reveal" href="creators.html" style="margin-top:34px">Visit the studio</a>
+      <p class="eyebrow reveal">סטודיו היוצרים</p>
+      <h2 class="display reveal">בונים אחד.<br>הוא נמכר.<br>בונים את הבא.</h2>
+      <p class="lede reveal">בלעדי שווה יותר. אתם קובעים את המחיר, שומרים 70%,
+      והשם שלכם נשאר על היצירה לאן שלא תלך.</p>
+      <a class="btn btn--ink reveal" href="creators.html" style="margin-top:34px">לסטודיו</a>
     </div>
   </section>
 
-  <!-- ══ JOIN BAND ══ -->
+  <!-- ══ רשימת המתנה ══ -->
   <section class="waitlist" id="waitlist">
     <video muted playsinline autoplay loop preload="metadata" class="waitlist__video" data-ambient
            src="assets/video/c5_atmos.mp4" aria-hidden="true"></video>
     <div class="waitlist__scrim" aria-hidden="true"></div>
     <div class="waitlist__inner">
-      <h2 class="display display--onink reveal">Claim the next one.</h2>
-      <p class="lede lede--onink reveal">The private waitlist sees every new piece 48 hours
-      before it reaches the shelf.</p>
+      <h2 class="display display--onink reveal">לתפוס את הבא.</h2>
+      <p class="lede lede--onink reveal">רשימת ההמתנה הפרטית רואה כל יצירה חדשה
+      48 שעות לפני שהיא מגיעה למדף.</p>
       <form class="waitlist__form reveal" data-waitlist="#waitlistOk" novalidate>
         <input type="email" name="email" placeholder="your@email.com"
-               autocomplete="email" required aria-label="Email address">
-        <button class="btn btn--gold" type="submit">Join the waitlist</button>
+               autocomplete="email" required aria-label="כתובת מייל">
+        <button class="btn btn--gold" type="submit">להצטרף לרשימה</button>
       </form>
-      <p class="waitlist__ok" id="waitlistOk" hidden>You're on the list. Quietly, of course.</p>
+      <p class="waitlist__ok" id="waitlistOk" hidden>אתם ברשימה. בשקט, כמובן.</p>
     </div>
   </section>
 
@@ -188,27 +188,27 @@
 <footer class="footer2">
   <div class="footer2__grid">
     <div>
-      <div class="footer2__brand">ATLAS</div>
-      <p class="footer2__tag">Every site sold here exists exactly once.</p>
+      <div class="footer2__brand">אטלס</div>
+      <p class="footer2__tag">כל אתר שנמכר כאן קיים פעם אחת בלבד.</p>
     </div>
     <div>
-      <h4>Marketplace</h4>
+      <h4>מרקטפלייס</h4>
       <ul>
-        <li><a href="gallery.html">The Gallery</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="join.html">Private waitlist</a></li>
+        <li><a href="gallery.html">הגלריה</a></li>
+        <li><a href="pricing.html">תמחור</a></li>
+        <li><a href="join.html">רשימת המתנה</a></li>
       </ul>
     </div>
     <div>
-      <h4>Studio</h4>
+      <h4>סטודיו</h4>
       <ul>
-        <li><a href="creators.html">For creators</a></li>
-        <li><a href="creators.html#apply">Apply</a></li>
-        <li><a href="manifesto.html">Manifesto</a></li>
+        <li><a href="creators.html">ליוצרים</a></li>
+        <li><a href="creators.html#apply">הגשת מועמדות</a></li>
+        <li><a href="manifesto.html">מניפסט</a></li>
       </ul>
     </div>
     <div>
-      <h4>Atlas</h4>
+      <h4>אטלס</h4>
       <ul>
         <li><a href="mailto:hello@atlassstudio.com">hello@atlassstudio.com</a></li>
         <li><a href="https://atlassstudio.com" target="_blank" rel="noopener">atlassstudio.com</a></li>
@@ -216,8 +216,8 @@
     </div>
   </div>
   <div class="footer2__base">
-    <span>ATLAS © 2026</span>
-    <span>One site. One owner.</span>
+    <span>אטלס © 2026</span>
+    <span>אתר אחד. בעלים אחד.</span>
   </div>
 </footer>
 

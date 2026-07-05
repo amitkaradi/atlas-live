@@ -9,7 +9,7 @@ const id = new URLSearchParams(location.search).get("id");
 const site = siteById(id);
 if (!site) { location.replace("gallery.html"); return; }
 
-document.title = `${site.name} — ATLAS`;
+document.title = `${site.name} — אטלס`;
 
 /* ── media column ────────────────────────────────────────────── */
 document.getElementById("pieceFrame").innerHTML = previewHTML(site);
@@ -17,25 +17,25 @@ const pal = document.getElementById("piecePalette");
 pal.innerHTML =
   [site.theme.bg, site.theme.ink, site.theme.accent]
     .map(c => `<i style="background:${c}" title="${c}"></i>`).join("") +
-  `<span>The piece's palette</span>`;
+  `<span>הפלטה של היצירה</span>`;
 
 /* ── body ────────────────────────────────────────────────────── */
 document.getElementById("crumbName").textContent = site.name;
 document.getElementById("pieceName").textContent = site.name;
 document.getElementById("pieceSub").textContent =
-  `${site.genre} · by ${site.creator} · edition 1 of 1`;
-document.getElementById("piecePrice").textContent = site.sold ? "Sold" : money(site.price);
+  `${site.genre} · מאת ${site.creator} · מהדורה 1 מתוך 1`;
+document.getElementById("piecePrice").textContent = site.sold ? "נמכר" : money(site.price);
 document.getElementById("pieceBadge").innerHTML = statusBadge(site);
 document.getElementById("pieceStory").textContent = site.story;
 document.getElementById("pieceFeatures").innerHTML =
   site.features.map(f => `<li>${f}</li>`).join("");
 document.getElementById("pieceMeta").innerHTML = `
-  <div><dt>Genre</dt><dd>${site.genre}</dd></div>
-  <div><dt>Pages</dt><dd>${site.pages}</dd></div>
-  <div><dt>Build</dt><dd>${site.stack}</dd></div>
-  <div><dt>Creator</dt><dd>${site.creator}</dd></div>
-  <div><dt>Built</dt><dd>${site.built}</dd></div>
-  <div><dt>Editions</dt><dd>1 — this one</dd></div>`;
+  <div><dt>ז׳אנר</dt><dd>${site.genre}</dd></div>
+  <div><dt>עמודים</dt><dd>${site.pages}</dd></div>
+  <div><dt>בנייה</dt><dd>${site.stack}</dd></div>
+  <div><dt>יוצר/ת</dt><dd>${site.creator}</dd></div>
+  <div><dt>נבנה</dt><dd>${site.built}</dd></div>
+  <div><dt>מהדורות</dt><dd>1 — זו שכאן</dd></div>`;
 
 /* ── acquire / reserve / release ─────────────────────────────── */
 const btn = document.getElementById("pieceAcquire");
@@ -47,18 +47,18 @@ function paintActions() {
   renderProvenance();
   if (site.sold) {
     btn.disabled = true;
-    btn.textContent = "Gone forever";
-    hint.textContent = "This piece left the shelf. Its creator is building the next one.";
+    btn.textContent = "איננו לתמיד";
+    hint.textContent = "היצירה הזו ירדה מהמדף. היוצר שלה כבר בונה את הבאה.";
     releaseBtn.hidden = true;
   } else if (isReserved(site.id)) {
     btn.disabled = true;
-    btn.textContent = "Reserved — check your email";
-    hint.textContent = "We're holding it for 48 hours while we talk.";
+    btn.textContent = "שמור — בדקו את המייל";
+    hint.textContent = "אנחנו שומרים אותו 48 שעות בזמן שמדברים.";
     releaseBtn.hidden = false;
   } else {
     btn.disabled = false;
-    btn.textContent = "Acquire this site";
-    hint.textContent = "Reserves the piece for 48 hours. Full refund until launch.";
+    btn.textContent = "לרכוש את האתר";
+    hint.textContent = "שומר את היצירה ל-48 שעות. החזר מלא עד העלייה לאוויר.";
     releaseBtn.hidden = true;
   }
 }
@@ -76,15 +76,15 @@ paintActions();
 /* ── provenance (re-rendered whenever the piece's state changes) ─ */
 function renderProvenance() {
   const steps = [
-    { when: site.built, what: `Built by ${site.creator}`, note: "One of one, from the first commit." },
-    { when: "Listed", what: "Entered the gallery", note: "Real, running, and clickable from day one." }
+    { when: site.built, what: `נבנה בידי ${site.creator}`, note: "בן יחיד, מהשורה הראשונה של הקוד." },
+    { when: "עלה למדף", what: "נכנס לגלריה", note: "אמיתי, רץ וקליקבילי מהיום הראשון." }
   ];
   if (site.sold) {
-    steps.push({ when: "Sold", what: "Left the shelf, forever", note: "Personalized and sealed for its one owner.", now: true });
+    steps.push({ when: "נמכר", what: "ירד מהמדף, לתמיד", note: "הותאם ונחתם עבור הבעלים היחיד שלו.", now: true });
   } else if (isReserved(site.id)) {
-    steps.push({ when: "Now", what: "On hold — 48 hours", note: "Reserved while we talk. Full refund until launch.", now: true });
+    steps.push({ when: "עכשיו", what: "בשמירה — 48 שעות", note: "שמור בזמן שמדברים. החזר מלא עד העלייה לאוויר.", now: true });
   } else {
-    steps.push({ when: "Now", what: "Available — still breathing", note: "The next owner ends this timeline.", now: true });
+    steps.push({ when: "עכשיו", what: "זמין — עדיין נושם", note: "הבעלים הבא יסיים את ציר הזמן הזה.", now: true });
   }
   document.getElementById("prov").innerHTML = steps.map(p => `
     <li${p.now ? ' class="is-now"' : ""}>

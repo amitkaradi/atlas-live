@@ -14,9 +14,9 @@ form.addEventListener("submit", e => {
   const email = document.getElementById("applyEmail");
   const url = document.getElementById("applyUrl");
 
-  if (!name.value.trim()) { err.textContent = "A name, so we know who's asking."; name.focus(); return; }
-  if (!email.value || !email.checkValidity()) { err.textContent = "That email doesn't look right."; email.focus(); return; }
-  if (!url.value || !url.checkValidity()) { err.textContent = "The link needs to be a full URL — https:// and all."; url.focus(); return; }
+  if (!name.value.trim()) { err.textContent = "שם, כדי שנדע מי שואל."; name.focus(); return; }
+  if (!email.value || !email.checkValidity()) { err.textContent = "המייל הזה לא נראה תקין."; email.focus(); return; }
+  if (!url.value || !url.checkValidity()) { err.textContent = "הקישור צריך להיות כתובת מלאה — כולל //:https."; url.focus(); return; }
 
   try {
     localStorage.setItem("atlas-apply", JSON.stringify({
