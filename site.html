@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piece — ATLAS</title>
+<meta name="description" content="A one-of-one website from the Atlas gallery.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F4F1EA'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%231A1712'>A</text></svg>">
+</head>
+<body data-page="gallery">
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a class="nav__brand" href="index.html">ATLAS</a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="gallery.html" data-nav="gallery">Gallery</a>
+    <a href="pricing.html" data-nav="pricing">Pricing</a>
+    <a href="creators.html" data-nav="creators">Creators</a>
+    <a href="manifesto.html" data-nav="manifesto">Manifesto</a>
+    <a href="join.html" class="nav__join-mobile">Claim the next one</a>
+  </nav>
+  <a class="nav__cta" href="join.html">Claim the next one</a>
+  <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false"><i></i></button>
+</header>
+
+<main>
+
+  <section class="piece" id="piece">
+    <div class="piece__media">
+      <div id="pieceFrame"><!-- live preview injected --></div>
+      <div class="piece__palette" id="piecePalette"></div>
+    </div>
+    <div class="piece__body">
+      <p class="piece__crumb"><a href="gallery.html">The Gallery</a> <span aria-hidden="true">·</span> <b id="crumbName"></b></p>
+      <h1 class="piece__title" id="pieceName"></h1>
+      <p class="piece__sub" id="pieceSub"></p>
+      <div class="piece__price-row">
+        <span class="piece__price" id="piecePrice"></span>
+        <span id="pieceBadge"></span>
+      </div>
+      <p class="piece__story" id="pieceStory"></p>
+      <ul class="piece__features" id="pieceFeatures"></ul>
+      <div class="piece__meta" id="pieceMeta"></div>
+      <div class="piece__actions">
+        <button class="btn btn--gold" id="pieceAcquire">Acquire this site</button>
+        <span class="piece__hint" id="pieceHint"></span>
+        <button class="piece__release" id="pieceRelease" hidden>Release the hold</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="provenance">
+    <h2>Provenance</h2>
+    <ol class="prov" id="prov"></ol>
+  </section>
+
+  <section class="related">
+    <h2 class="reveal">Still on the shelf</h2>
+    <div class="gallery__grid" id="relatedGrid"></div>
+  </section>
+
+</main>
+
+<footer class="footer2">
+  <div class="footer2__grid">
+    <div>
+      <div class="footer2__brand">ATLAS</div>
+      <p class="footer2__tag">Every site sold here exists exactly once.</p>
+    </div>
+    <div>
+      <h4>Marketplace</h4>
+      <ul>
+        <li><a href="gallery.html">The Gallery</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="join.html">Private waitlist</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="creators.html">For creators</a></li>
+        <li><a href="creators.html#apply">Apply</a></li>
+        <li><a href="manifesto.html">Manifesto</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Atlas</h4>
+      <ul>
+        <li><a href="mailto:hello@atlassstudio.com">hello@atlassstudio.com</a></li>
+        <li><a href="https://atlassstudio.com" target="_blank" rel="noopener">atlassstudio.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer2__base">
+    <span>ATLAS © 2026</span>
+    <span>One site. One owner.</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/site.js"></script>
+<script src="js/common.js"></script>
+</body>
+</html>

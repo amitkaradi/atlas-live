@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Creator Studio — ATLAS</title>
+<meta name="description" content="Build one. It sells. Build the next. Atlas creators set their own price, keep 70%, and their work is never resold or templated.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F4F1EA'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%231A1712'>A</text></svg>">
+</head>
+<body data-page="creators">
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a class="nav__brand" href="index.html">ATLAS</a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="gallery.html" data-nav="gallery">Gallery</a>
+    <a href="pricing.html" data-nav="pricing">Pricing</a>
+    <a href="creators.html" data-nav="creators">Creators</a>
+    <a href="manifesto.html" data-nav="manifesto">Manifesto</a>
+    <a href="join.html" class="nav__join-mobile">Claim the next one</a>
+  </nav>
+  <a class="nav__cta" href="join.html">Claim the next one</a>
+  <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false"><i></i></button>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <p class="eyebrow reveal">The Creator Studio</p>
+    <h1 class="display reveal">Build one. It sells.<br>Build the next.</h1>
+    <p class="lede reveal">Templates race to the bottom. One-of-one climbs the other way —
+    your work is never resold, never re-skinned, never diluted, so it commands a price
+    that respects it.</p>
+  </section>
+
+  <section class="split">
+    <div class="split__media reveal">
+      <video muted playsinline autoplay loop preload="metadata" data-ambient
+             src="assets/video/c4_renew.mp4" aria-hidden="true"></video>
+    </div>
+    <div>
+      <p class="eyebrow reveal">The terms</p>
+      <h2 class="display reveal" style="font-size:clamp(30px,3.6vw,52px)">Transparent, or it isn't a studio.</h2>
+      <ul class="creators__terms">
+        <li class="reveal"><strong>You set the price.</strong> And when your piece goes on the shelf.</li>
+        <li class="reveal"><strong>You keep 70%.</strong> Commission is flat and public. No tiers, no surprises.</li>
+        <li class="reveal"><strong>You stay the author.</strong> Your name stays on the piece, wherever it lives.</li>
+        <li class="reveal"><strong>You do the personalization.</strong> Five paid days, your hands, your standards.</li>
+      </ul>
+      <div class="commission reveal">
+        <div class="is-you"><strong>70%</strong><span>you, on sale</span></div>
+        <div><strong>20%</strong><span>atlas</span></div>
+        <div><strong>10%</strong><span>gallery fund</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how" id="how" style="height:auto;background:var(--paper-deep)">
+    <div style="padding:clamp(80px,12vh,150px) clamp(24px,7vw,110px)">
+      <div class="how__head">
+        <p class="eyebrow reveal">A creator's loop</p>
+        <h2 class="display reveal">The rhythm of the studio.</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(28px,3vw,52px);margin-top:6vh">
+        <article class="step reveal" style="width:auto">
+          <span class="step__num">01</span>
+          <h3>Propose a piece</h3>
+          <p>A concept, a genre, a point of view. The studio reviews for craft, not volume.</p>
+        </article>
+        <article class="step reveal" style="width:auto">
+          <span class="step__num">02</span>
+          <h3>Build it alive</h3>
+          <p>Real pages, real motion, real content structure. It ships to the shelf running.</p>
+        </article>
+        <article class="step reveal" style="width:auto">
+          <span class="step__num">03</span>
+          <h3>It sells — once</h3>
+          <p>You personalize it for its one owner over five paid days. Then it's sealed.</p>
+        </article>
+        <article class="step reveal" style="width:auto">
+          <span class="step__num">04</span>
+          <h3>The slot is yours again</h3>
+          <p>Build the next one-of-one. Your shelf presence is permanent; your pieces aren't.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="apply" id="apply">
+    <div class="apply__inner">
+      <p class="eyebrow reveal" style="color:#D8B96A">Apply</p>
+      <h2 class="display reveal">Nine creators. One empty bench.</h2>
+      <p class="lede reveal" style="color:rgba(244,241,234,.78)">The studio stays small so the shelf stays sharp.
+      Show us one thing you've built that you still like.</p>
+      <form class="apply__form reveal" id="applyForm" novalidate>
+        <div class="frow">
+          <input type="text" name="name" id="applyName" placeholder="Your name" autocomplete="name" required aria-label="Your name">
+          <input type="email" name="email" id="applyEmail" placeholder="your@email.com" autocomplete="email" required aria-label="Email">
+        </div>
+        <input type="url" name="portfolio" id="applyUrl" placeholder="One link — the work you still like" required aria-label="Portfolio link">
+        <textarea name="note" id="applyNote" rows="4" placeholder="Three sentences. What would your first piece be?" aria-label="Your note"></textarea>
+        <p class="apply__err" id="applyErr" aria-live="polite"></p>
+        <button class="btn btn--gold" type="submit">Ask for the bench</button>
+      </form>
+      <p class="apply__ok" id="applyOk" hidden>Received. If the bench fits, we write back within a week.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer2">
+  <div class="footer2__grid">
+    <div>
+      <div class="footer2__brand">ATLAS</div>
+      <p class="footer2__tag">Every site sold here exists exactly once.</p>
+    </div>
+    <div>
+      <h4>Marketplace</h4>
+      <ul>
+        <li><a href="gallery.html">The Gallery</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="join.html">Private waitlist</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="creators.html">For creators</a></li>
+        <li><a href="creators.html#apply">Apply</a></li>
+        <li><a href="manifesto.html">Manifesto</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Atlas</h4>
+      <ul>
+        <li><a href="mailto:hello@atlassstudio.com">hello@atlassstudio.com</a></li>
+        <li><a href="https://atlassstudio.com" target="_blank" rel="noopener">atlassstudio.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer2__base">
+    <span>ATLAS © 2026</span>
+    <span>One site. One owner.</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/creators.js"></script>
+<script src="js/common.js"></script>
+</body>
+</html>

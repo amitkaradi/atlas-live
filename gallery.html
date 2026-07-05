@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Gallery — ATLAS</title>
+<meta name="description" content="Every piece in the Atlas gallery is a real, running website that exists exactly once. Available pieces leave the shelf forever when bought.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F4F1EA'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%231A1712'>A</text></svg>">
+</head>
+<body data-page="gallery">
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a class="nav__brand" href="index.html">ATLAS</a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="gallery.html" data-nav="gallery">Gallery</a>
+    <a href="pricing.html" data-nav="pricing">Pricing</a>
+    <a href="creators.html" data-nav="creators">Creators</a>
+    <a href="manifesto.html" data-nav="manifesto">Manifesto</a>
+    <a href="join.html" class="nav__join-mobile">Claim the next one</a>
+  </nav>
+  <a class="nav__cta" href="join.html">Claim the next one</a>
+  <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false"><i></i></button>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <p class="eyebrow reveal">The Gallery</p>
+    <h1 class="display reveal">On the shelf, today.</h1>
+    <p class="lede reveal">Every piece is a real, running website that exists exactly once.
+    When a card goes dark, it's gone — kept here only as provenance.</p>
+  </section>
+
+  <section class="filters" aria-label="Filter the gallery">
+    <div class="filters__group" id="statusFilters" role="group" aria-label="Status">
+      <span class="filters__label">Status</span>
+      <button class="chip is-on" data-status="all">All</button>
+      <button class="chip" data-status="available">Available</button>
+      <button class="chip" data-status="sold">Sold</button>
+    </div>
+    <div class="filters__group" id="genreFilters" role="group" aria-label="Genre">
+      <span class="filters__label">Genre</span>
+      <!-- chips injected -->
+    </div>
+    <p class="filters__count" id="filterCount"></p>
+  </section>
+
+  <section class="gallery" style="padding-top:0">
+    <div class="gallery__grid" id="galleryGrid"><!-- injected --></div>
+  </section>
+
+  <section class="teaser">
+    <div>
+      <p class="eyebrow reveal">Missed one?</p>
+      <h2 class="display reveal">The shelf renews.</h2>
+      <p class="lede reveal">When a piece sells, its creator builds a brand-new one-of-one.
+      The waitlist sees it 48 hours before anyone else.</p>
+    </div>
+    <a class="btn btn--gold reveal" href="join.html">Join the private waitlist</a>
+  </section>
+
+</main>
+
+<footer class="footer2">
+  <div class="footer2__grid">
+    <div>
+      <div class="footer2__brand">ATLAS</div>
+      <p class="footer2__tag">Every site sold here exists exactly once.</p>
+    </div>
+    <div>
+      <h4>Marketplace</h4>
+      <ul>
+        <li><a href="gallery.html">The Gallery</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="join.html">Private waitlist</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="creators.html">For creators</a></li>
+        <li><a href="creators.html#apply">Apply</a></li>
+        <li><a href="manifesto.html">Manifesto</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Atlas</h4>
+      <ul>
+        <li><a href="mailto:hello@atlassstudio.com">hello@atlassstudio.com</a></li>
+        <li><a href="https://atlassstudio.com" target="_blank" rel="noopener">atlassstudio.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer2__base">
+    <span>ATLAS © 2026</span>
+    <span>One site. One owner.</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/common.js"></script>
+</body>
+</html>

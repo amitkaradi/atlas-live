@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claim the next one — ATLAS</title>
+<meta name="description" content="The Atlas private waitlist sees every new one-of-one website 48 hours before it reaches the shelf.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23F4F1EA'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%231A1712'>A</text></svg>">
+</head>
+<body data-page="join">
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <a class="nav__brand" href="index.html">ATLAS</a>
+  <nav class="nav__links" aria-label="Primary">
+    <a href="gallery.html" data-nav="gallery">Gallery</a>
+    <a href="pricing.html" data-nav="pricing">Pricing</a>
+    <a href="creators.html" data-nav="creators">Creators</a>
+    <a href="manifesto.html" data-nav="manifesto">Manifesto</a>
+    <a href="join.html" class="nav__join-mobile">Claim the next one</a>
+  </nav>
+  <a class="nav__cta" href="join.html">Claim the next one</a>
+  <button class="nav__burger" id="navBurger" aria-label="Menu" aria-expanded="false"><i></i></button>
+</header>
+
+<main>
+
+  <section class="join">
+    <video muted playsinline autoplay loop preload="metadata" data-ambient
+           src="assets/video/c5_atmos.mp4" aria-hidden="true"></video>
+    <div class="join__scrim" aria-hidden="true"></div>
+    <div class="join__inner">
+      <p class="eyebrow reveal" style="color:#D8B96A">The private waitlist</p>
+      <h1 class="display display--onink reveal">Claim the next one.</h1>
+      <p class="lede lede--onink reveal" style="margin-inline:auto">The shelf renews without warning.
+      The waitlist is how you stop missing it.</p>
+      <ul class="join__perks reveal">
+        <li>Every new piece, 48 hours before the public shelf</li>
+        <li>First right to reserve — quietly, by email</li>
+        <li>Word when a commission bench opens</li>
+        <li>No noise. A few emails a month, at most</li>
+      </ul>
+      <form class="waitlist__form reveal" data-waitlist="#joinOk" novalidate style="margin-top:40px">
+        <input type="email" name="email" placeholder="your@email.com"
+               autocomplete="email" required aria-label="Email address">
+        <button class="btn btn--gold" type="submit">Join the waitlist</button>
+      </form>
+      <p class="waitlist__ok" id="joinOk" hidden>You're on the list. Quietly, of course.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer2">
+  <div class="footer2__grid">
+    <div>
+      <div class="footer2__brand">ATLAS</div>
+      <p class="footer2__tag">Every site sold here exists exactly once.</p>
+    </div>
+    <div>
+      <h4>Marketplace</h4>
+      <ul>
+        <li><a href="gallery.html">The Gallery</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="join.html">Private waitlist</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="creators.html">For creators</a></li>
+        <li><a href="creators.html#apply">Apply</a></li>
+        <li><a href="manifesto.html">Manifesto</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Atlas</h4>
+      <ul>
+        <li><a href="mailto:hello@atlassstudio.com">hello@atlassstudio.com</a></li>
+        <li><a href="https://atlassstudio.com" target="_blank" rel="noopener">atlassstudio.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer2__base">
+    <span>ATLAS © 2026</span>
+    <span>One site. One owner.</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/common.js"></script>
+</body>
+</html>
