@@ -778,3 +778,14 @@ html[dir="rtl"] .hero__tagline,html[dir="rtl"] .pricing__note,
 html[dir="rtl"] .footer2__tag,html[dir="rtl"] .filters__count,
 html[dir="rtl"] .waitlist__ok,html[dir="rtl"] .apply__ok,
 html[dir="rtl"] .piece__hint,html[dir="rtl"] .footer__mid{font-style:normal}
+
+/* mock-site notice — quiet, fixed, on every page */
+.mocknote{
+  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:95;
+  background:rgba(244,241,234,.93);backdrop-filter:blur(10px);
+  border:1px solid rgba(176,141,62,.5);border-radius:999px;
+  padding:9px 22px;font-size:12.5px;color:var(--ink-soft);letter-spacing:.04em;
+  box-shadow:0 10px 30px -12px rgba(26,23,18,.35);white-space:nowrap;pointer-events:none;
+}
+.mocknote b{color:var(--gold);font-weight:600}
+@media(max-width:560px){.mocknote{white-space:normal;text-align:center;max-width:88vw;bottom:12px}}

@@ -118,4 +118,11 @@ document.querySelectorAll("video[data-ambient]").forEach(v => {
 /* card hover highlights for any server-rendered cards */
 bindCardHighlights(document);
 
+/* ── mock-site notice — the shelf is illustrative for now ────── */
+const mocknote = document.createElement("div");
+mocknote.className = "mocknote";
+mocknote.setAttribute("role", "note");
+mocknote.innerHTML = "<b>אתר הדגמה</b> · היצירות והמחירים להמחשה בלבד";
+document.body.appendChild(mocknote);
+
 })();
