@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מרידיאן — אדריכלות</title>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500&family=Assistant:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F1F0EC;--ink:#2B2B28;--soft:#6E6A5E;--acc:#8A8474;--line:rgba(43,43,40,.14)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"Assistant",sans-serif;line-height:1.6}
+h1,h2,h3{font-family:"Frank Ruhl Libre",serif;font-weight:400}
+nav{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;
+  padding:16px 5vw;background:rgba(241,240,236,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .logo{font-family:"Frank Ruhl Libre",serif;font-size:20px;letter-spacing:.26em}
+nav a{color:var(--soft);text-decoration:none;font-size:14px;margin-inline-start:22px}
+nav a:hover{color:var(--ink)}
+header{padding:11vh 5vw 7vh;max-width:1060px;margin:0 auto}
+header .eyebrow{color:var(--acc);letter-spacing:.3em;font-size:12px;margin-bottom:16px}
+header h1{font-size:clamp(34px,6vw,60px);max-width:16ch;line-height:1.1}
+header p{color:var(--soft);font-weight:300;margin-top:16px;max-width:52ch}
+.folio{max-width:1060px;margin:0 auto;padding:3vh 5vw 9vh}
+.projects{display:flex;gap:10px;margin-bottom:26px;flex-wrap:wrap}
+.projects button{border:1px solid var(--line);background:transparent;border-radius:999px;padding:9px 22px;
+  font-family:"Assistant";font-size:14px;color:var(--soft);cursor:pointer;transition:all .3s}
+.projects button.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.viewer{background:#FBFAF7;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.modes{display:flex;border-bottom:1px solid var(--line)}
+.modes button{flex:1;border:none;background:transparent;padding:14px;font-family:"Assistant";
+  font-size:13px;letter-spacing:.1em;color:var(--soft);cursor:pointer;border-bottom:2px solid transparent;transition:all .3s}
+.modes button.on{color:var(--ink);border-bottom-color:var(--acc)}
+.plate{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.plate svg{width:74%;height:74%;transition:opacity .5s,transform .5s}
+.caption{display:flex;justify-content:space-between;padding:16px 22px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--soft)}
+.caption b{font-family:"Frank Ruhl Libre",serif;font-size:16px;color:var(--ink);font-weight:400}
+.practice{max-width:1060px;margin:0 auto;padding:0 5vw 10vh;display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.practice h2{font-size:clamp(24px,3.4vw,34px);margin-bottom:14px}
+.practice p{color:var(--soft);font-weight:300;font-size:15px}
+.practice ul{list-style:none;margin-top:8px}
+.practice li{padding:10px 0;border-bottom:1px solid var(--line);font-weight:300;color:var(--soft);font-size:14.5px}
+.practice li b{color:var(--ink);font-weight:600}
+footer{border-top:1px solid var(--line);padding:24px 5vw;display:flex;justify-content:space-between;
+  color:var(--soft);font-size:12.5px}
+@media(max-width:760px){.practice{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <span class="logo">מרידיאן</span>
+  <span><a href="#folio">פרויקטים</a><a href="#practice">המשרד</a></span>
+</nav>
+
+<header>
+  <p class="eyebrow">אדריכלות · תל אביב</p>
+  <h1>קודם תכנית. אחר כך צילום.</h1>
+  <p>אנחנו מציגים בניינים כמו שאנחנו חושבים עליהם: שרטוט, מודל, ורק בסוף — האור הבנוי.</p>
+</header>
+
+<section class="folio" id="folio">
+  <div class="projects" id="projects"></div>
+  <div class="viewer">
+    <div class="modes" id="modes">
+      <button class="on" data-m="plan">תכנית</button>
+      <button data-m="model">מודל</button>
+      <button data-m="light">אור</button>
+    </div>
+    <div class="plate"><svg id="plate" viewBox="0 0 400 225"></svg></div>
+    <div class="caption"><b id="cName"></b><span id="cMeta"></span></div>
+  </div>
+</section>
+
+<section class="practice" id="practice">
+  <div>
+    <h2>המשרד</h2>
+    <p>שלושה אדריכלים, שולחן אחד ארוך, וכלל אחד: אם אי אפשר להסביר את הבניין
+    בחתך אחד — הוא עוד לא גמור. אנחנו לוקחים מעט פרויקטים, ולוקחים אותם עד הסוף.</p>
+  </div>
+  <div>
+    <h2>עקרונות</h2>
+    <ul>
+      <li><b>אור לפני חומר.</b> קודם מבינים מאיפה השמש מגיעה.</li>
+      <li><b>גריד שקט.</b> הסדר צריך להיות מורגש, לא מוצהר.</li>
+      <li><b>פחות, ועד הסוף.</b> כל פרויקט מקבל את כל תשומת הלב.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <span>מרידיאן © 2026</span>
+  <span>נבנה באטלס · בן יחיד</span>
+</footer>
+
+<script>
+const P = [
+  { n: "בית ברחוב השקד", meta: "מגורים · 2025 · 210 מ״ר",
+    plan: `<rect x="60" y="30" width="280" height="165" fill="none" stroke="#2B2B28" stroke-width="2"/>
+      <line x1="180" y1="30" x2="180" y2="195" stroke="#2B2B28" stroke-width="1.2"/>
+      <line x1="180" y1="110" x2="340" y2="110" stroke="#2B2B28" stroke-width="1.2"/>
+      <rect x="80" y="50" width="60" height="40" fill="none" stroke="#8A8474" stroke-width="1" stroke-dasharray="4 3"/>
+      <circle cx="255" cy="70" r="16" fill="none" stroke="#8A8474" stroke-width="1"/>
+      <line x1="60" y1="140" x2="20" y2="140" stroke="#8A8474" stroke-width="1"/><text x="26" y="132" font-size="9" fill="#6E6A5E">כניסה</text>`,
+    model: `<g stroke="#2B2B28" fill="#E9E7E0"><polygon points="120,160 200,120 280,160 200,200" stroke-width="1.5"/>
+      <polygon points="120,160 120,90 200,50 200,120" stroke-width="1.5" fill="#DFDCD2"/>
+      <polygon points="200,120 200,50 280,90 280,160" stroke-width="1.5" fill="#D2CEC2"/></g>`,
+    light: `<rect x="0" y="0" width="400" height="225" fill="#CBC4B2"/>
+      <polygon points="0,225 400,225 400,90 240,50 0,120" fill="#B4AC97"/>
+      <polygon points="240,50 400,90 400,0 240,0" fill="#E4DECE"/>
+      <polygon points="70,225 190,225 190,120 70,140" fill="#F4EFE0" opacity=".9"/>` },
+  { n: "ספריית גבעול", meta: "ציבורי · 2024 · 1,400 מ״ר",
+    plan: `<circle cx="200" cy="112" r="85" fill="none" stroke="#2B2B28" stroke-width="2"/>
+      <circle cx="200" cy="112" r="52" fill="none" stroke="#8A8474" stroke-width="1" stroke-dasharray="4 3"/>
+      <line x1="200" y1="27" x2="200" y2="197" stroke="#2B2B28" stroke-width="1"/>
+      <line x1="115" y1="112" x2="285" y2="112" stroke="#2B2B28" stroke-width="1"/>`,
+    model: `<g stroke="#2B2B28"><ellipse cx="200" cy="150" rx="110" ry="34" fill="#DFDCD2" stroke-width="1.5"/>
+      <path d="M90 150 C 90 90, 310 90, 310 150" fill="#E9E7E0" stroke-width="1.5"/>
+      <ellipse cx="200" cy="98" rx="46" ry="13" fill="#D2CEC2" stroke-width="1.2"/></g>`,
+    light: `<rect x="0" y="0" width="400" height="225" fill="#D8D2C0"/>
+      <ellipse cx="200" cy="130" rx="150" ry="70" fill="#C2BAA4"/>
+      <ellipse cx="200" cy="118" rx="95" ry="42" fill="#EFE9D8"/>
+      <ellipse cx="200" cy="112" rx="40" ry="16" fill="#FBF7EA"/>` },
+  { n: "סטודיו מצוק", meta: "עבודה · 2026 · בתכנון",
+    plan: `<polygon points="60,190 340,190 300,40 100,40" fill="none" stroke="#2B2B28" stroke-width="2"/>
+      <line x1="100" y1="40" x2="140" y2="190" stroke="#8A8474" stroke-width="1" stroke-dasharray="4 3"/>
+      <line x1="300" y1="40" x2="260" y2="190" stroke="#8A8474" stroke-width="1" stroke-dasharray="4 3"/>
+      <rect x="180" y="90" width="44" height="30" fill="none" stroke="#2B2B28" stroke-width="1"/>`,
+    model: `<g stroke="#2B2B28"><polygon points="100,180 300,180 330,120 130,120" fill="#DFDCD2" stroke-width="1.5"/>
+      <polygon points="130,120 330,120 300,60 160,60" fill="#E9E7E0" stroke-width="1.5"/>
+      <line x1="100" y1="180" x2="130" y2="120" stroke-width="1.5"/></g>`,
+    light: `<rect x="0" y="0" width="400" height="225" fill="#C9C2AE"/>
+      <polygon points="0,225 400,225 400,140 0,180" fill="#B0A890"/>
+      <polygon points="40,160 360,140 360,70 40,110" fill="#EBE4D0"/>
+      <polygon points="200,140 360,130 360,70 200,90" fill="#F8F3E4"/>` }
+];
+let proj = 0, mode = "plan";
+const plate = document.getElementById("plate");
+const projWrap = document.getElementById("projects");
+function draw() {
+  plate.style.opacity = 0;
+  plate.style.transform = "translateY(6px)";
+  setTimeout(() => {
+    plate.innerHTML = P[proj][mode];
+    plate.style.opacity = 1;
+    plate.style.transform = "none";
+  }, 240);
+  document.getElementById("cName").textContent = P[proj].n;
+  document.getElementById("cMeta").textContent = P[proj].meta;
+  [...projWrap.children].forEach((b, i) => b.classList.toggle("on", i === proj));
+  document.querySelectorAll("#modes button").forEach(b => b.classList.toggle("on", b.dataset.m === mode));
+}
+P.forEach((p, i) => {
+  const b = document.createElement("button");
+  b.textContent = p.n;
+  b.addEventListener("click", () => { proj = i; mode = "plan"; draw(); });
+  projWrap.appendChild(b);
+});
+document.getElementById("modes").addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  mode = b.dataset.m;
+  draw();
+});
+document.querySelectorAll("nav a").forEach(a => a.addEventListener("click", e => {
+  e.preventDefault();
+  document.querySelector(a.getAttribute("href")).scrollIntoView({ behavior: "smooth" });
+}));
+draw();
+</script>
+</body>
+</html>

@@ -22,7 +22,7 @@ const MIME = {
 
 http.createServer((req, res) => {
   let urlPath = decodeURIComponent(req.url.split("?")[0]);
-  if (urlPath === "/") urlPath = "/index.html";
+  if (urlPath.endsWith("/")) urlPath += "index.html"; // directory index, like the CDN does
   const filePath = path.join(ROOT, path.normalize(urlPath));
   if (!filePath.startsWith(ROOT)) { res.writeHead(403); return res.end(); }
 
@@ -30,7 +30,13 @@ http.createServer((req, res) => {
     if (err || !stat.isFile()) { res.writeHead(404); return res.end("Not found"); }
     const ext = path.extname(filePath).toLowerCase();
     const type = MIME[ext] || "application/octet-stream";
-    const headers = { "Content-Type": type, "Content-Length": stat.size, "Accept-Ranges": "bytes" };
+    const headers = {
+      "Content-Type": type,
+      "Content-Length": stat.size,
+      "Accept-Ranges": "bytes",
+      // dev server: never let the browser cache stale code
+      "Cache-Control": "no-store"
+    };
 
     // Range support so <video> scrubbing works
     const range = req.headers.range;

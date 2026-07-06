@@ -11,8 +11,16 @@ if (!site) { location.replace("gallery.html"); return; }
 
 document.title = `${site.name} — אטלס`;
 
-/* ── media column ────────────────────────────────────────────── */
-document.getElementById("pieceFrame").innerHTML = previewHTML(site);
+/* ── media column — a live demo gets the real, interactive site ─ */
+document.getElementById("pieceFrame").innerHTML = site.demo
+  ? `<div class="piece__livehint">
+       <span class="badge badge--live">חי</span>
+       זהו אתר אמיתי — גללו בתוכו, לחצו, נסו הכול.
+     </div>
+     <div class="piece__liveframe">
+       <iframe src="${site.demo}" title="${site.name} — אתר חי"></iframe>
+     </div>`
+  : previewHTML(site);
 const pal = document.getElementById("piecePalette");
 pal.innerHTML =
   [site.theme.bg, site.theme.ink, site.theme.accent]

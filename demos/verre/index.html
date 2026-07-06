@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ורר — סטודיו זכוכית</title>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500&family=Assistant:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F5F6;--ink:#22303A;--soft:#5C6B76;--acc:#5E8CA7;--line:rgba(34,48,58,.14)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"Assistant",sans-serif;line-height:1.6}
+h1,h2,h3{font-family:"Frank Ruhl Libre",serif;font-weight:400}
+nav{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;
+  padding:16px 5vw;background:rgba(242,245,246,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .logo{font-family:"Frank Ruhl Libre",serif;font-size:22px;letter-spacing:.22em}
+nav a{color:var(--soft);text-decoration:none;font-size:14px;margin-inline-start:22px}
+nav a:hover{color:var(--acc)}
+header{text-align:center;padding:11vh 5vw 6vh}
+header .eyebrow{color:var(--acc);letter-spacing:.3em;font-size:12px;margin-bottom:16px}
+header h1{font-size:clamp(36px,6.5vw,66px)}
+header p{color:var(--soft);font-weight:300;margin-top:14px}
+.studio{max-width:1060px;margin:0 auto;padding:4vh 5vw 10vh;
+  display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:center}
+.stage{aspect-ratio:1;border-radius:14px;background:linear-gradient(160deg,#FFFFFF,#DEE8ED);
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.stage::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(60% 40% at 50% 108%,rgba(94,140,167,.25),transparent 70%)}
+.glass{transition:all .7s cubic-bezier(.22,1,.36,1);filter:drop-shadow(0 24px 30px rgba(34,48,58,.25))}
+.info h2{font-size:clamp(26px,3.5vw,38px)}
+.info .num{color:var(--acc);font-size:13px;letter-spacing:.2em;margin-bottom:10px}
+.info p{color:var(--soft);font-weight:300;margin:14px 0 22px;min-height:76px}
+.info .price{font-family:"Frank Ruhl Libre",serif;font-size:26px;margin-bottom:20px}
+.thumbs{display:flex;gap:10px;margin:26px 0}
+.thumbs button{width:54px;height:54px;border-radius:10px;border:1px solid var(--line);cursor:pointer;
+  background:linear-gradient(160deg,#fff,#E4EDF1);display:flex;align-items:center;justify-content:center;
+  transition:all .3s}
+.thumbs button.on{border-color:var(--acc);box-shadow:0 0 0 2px rgba(94,140,167,.25)}
+.thumbs svg{transform:scale(.42)}
+.buy{background:var(--acc);color:#fff;border:none;border-radius:999px;padding:13px 30px;
+  font-family:"Assistant";font-size:14px;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.buy:hover{transform:translateY(-2px);box-shadow:0 14px 26px -12px rgba(94,140,167,.6)}
+.note{font-size:12.5px;color:var(--soft);margin-top:12px}
+footer{border-top:1px solid var(--line);padding:24px 5vw;display:flex;justify-content:space-between;
+  color:var(--soft);font-size:12.5px}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--ink);color:#fff;border-radius:8px;
+  padding:12px 22px;font-size:13.5px;opacity:0;transform:translateY(10px);transition:all .4s;pointer-events:none}
+.toast.show{opacity:1;transform:none}
+@media(max-width:760px){.studio{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <span class="logo">ורר</span>
+  <span><a href="#studio">האוסף</a><a href="#visit">ביקור בסטודיו</a></span>
+</nav>
+
+<header>
+  <p class="eyebrow">זכוכית מנופחת ביד</p>
+  <h1>מעוצב בנשימה.</h1>
+  <p>שנים־עשר כלים בשנה. כל אחד — נשיפה אחת, פעם אחת.</p>
+</header>
+
+<section class="studio" id="studio">
+  <div class="stage">
+    <svg id="glassStage" class="glass" width="300" height="300" viewBox="0 0 200 200"></svg>
+  </div>
+  <div class="info">
+    <p class="num" id="pNum"></p>
+    <h2 id="pName"></h2>
+    <p id="pDesc"></p>
+    <div class="price" id="pPrice"></div>
+    <button class="buy" id="buy">להוסיף לתיבה</button>
+    <p class="note">משלוח עטוף ביד · ביטוח שבר מלא</p>
+    <div class="thumbs" id="thumbs"></div>
+  </div>
+</section>
+
+<section id="visit" style="text-align:center;padding:0 5vw 10vh">
+  <h2 style="font-size:clamp(24px,3vw,34px)">הסטודיו פתוח בימי שישי</h2>
+  <p style="color:var(--soft);font-weight:300">רואים את הכבשן, שומעים את הנשיפה. בתיאום בלבד.</p>
+</section>
+
+<footer>
+  <span>ורר © 2026</span>
+  <span>נבנה באטלס · בן יחיד</span>
+</footer>
+
+<div class="toast" id="toast">נשמר בתיבה — נארז ביד</div>
+
+<script>
+const PIECES = [
+  { n: "אגרטל ערפל", d: "זכוכית חלבית עם ליבה שקופה. הצורה נולדה מנשיפה איטית אחת, בבוקר קר במיוחד.", p: "₪620",
+    path: "M100 30 C 82 60, 70 90, 70 125 C 70 160, 84 175, 100 175 C 116 175, 130 160, 130 125 C 130 90, 118 60, 100 30 Z",
+    fill: "rgba(222,235,240,.85)", stroke: "#8FB4C9" },
+  { n: "קערת גאות", d: "שפה לא סימטרית שנעצרה באמצע תנועה. כל הבהוב אור נשבר בה אחרת.", p: "₪480",
+    path: "M30 110 C 45 90, 80 82, 100 82 C 120 82, 155 90, 170 110 C 160 150, 130 165, 100 165 C 70 165, 40 150, 30 110 Z",
+    fill: "rgba(197,220,230,.8)", stroke: "#6E97AD" },
+  { n: "כוס צוק", d: "דופן עבה שמתדקקת כלפי מעלה, כמו מצוק כורכר. נעימה ביד באופן לא הוגן.", p: "₪240",
+    path: "M75 45 L 80 170 C 80 176, 120 176, 120 170 L 125 45 C 110 38, 90 38, 75 45 Z",
+    fill: "rgba(230,240,244,.9)", stroke: "#7FA6BA" },
+  { n: "מנורת דמדומים", d: "גוף כדורי עם פתח צר — האור יוצא ממנה כמו מתוך פנס ים ישן.", p: "₪890",
+    path: "M100 40 C 130 40, 155 70, 155 105 C 155 145, 130 168, 100 168 C 70 168, 45 145, 45 105 C 45 70, 70 40, 100 40 Z M 92 30 L 108 30 L 106 42 L 94 42 Z",
+    fill: "rgba(214,231,238,.85)", stroke: "#5E8CA7" }
+];
+let cur = 0;
+const stage = document.getElementById("glassStage");
+const thumbs = document.getElementById("thumbs");
+function show(i) {
+  cur = i;
+  const p = PIECES[i];
+  stage.style.opacity = 0;
+  stage.style.transform = "translateY(8px) scale(.96)";
+  setTimeout(() => {
+    stage.innerHTML = `<path d="${p.path}" fill="${p.fill}" stroke="${p.stroke}" stroke-width="2.5"/>`;
+    stage.style.opacity = 1;
+    stage.style.transform = "none";
+  }, 260);
+  document.getElementById("pNum").textContent = `יצירה ${i + 1} / ${PIECES.length} · מהדורה של אחת`;
+  document.getElementById("pName").textContent = p.n;
+  document.getElementById("pDesc").textContent = p.d;
+  document.getElementById("pPrice").textContent = p.p;
+  [...thumbs.children].forEach((b, j) => b.classList.toggle("on", j === i));
+}
+PIECES.forEach((p, i) => {
+  const b = document.createElement("button");
+  b.innerHTML = `<svg width="120" height="120" viewBox="0 0 200 200"><path d="${p.path}" fill="${p.fill}" stroke="${p.stroke}" stroke-width="4"/></svg>`;
+  b.addEventListener("click", () => show(i));
+  thumbs.appendChild(b);
+});
+const toast = document.getElementById("toast");
+document.getElementById("buy").addEventListener("click", () => {
+  toast.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => toast.classList.remove("show"), 1500);
+});
+document.querySelectorAll("nav a").forEach(a => a.addEventListener("click", e => {
+  e.preventDefault();
+  document.querySelector(a.getAttribute("href")).scrollIntoView({ behavior: "smooth" });
+}));
+show(0);
+</script>
+</body>
+</html>

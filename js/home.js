@@ -14,7 +14,7 @@ grid.innerHTML = featured.map(cardHTML).join("");
 bindCardHighlights(grid);
 
 /* ══ HERO FRAME SEQUENCE ═════════════════════════════════════ */
-const FRAME_COUNT = 121;
+const FRAME_COUNT = 193;
 const framePath = i => `assets/frames/orbit_${String(i + 1).padStart(4, "0")}.webp`;
 
 const canvas = document.getElementById("orbitCanvas");
@@ -31,15 +31,21 @@ function sizeCanvas() {
   drawFrame();
 }
 
-function drawImageCover(img) {
+function drawImageCover(img, clear) {
   if (!img) return;
   const cw = canvas.width, ch = canvas.height;
   const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
   if (!iw || !ih || !cw || !ch) return;
   const scale = Math.max(cw / iw, ch / ih);
   const w = iw * scale, h = ih * scale;
-  ctx.clearRect(0, 0, cw, ch);
+  if (clear) ctx.clearRect(0, 0, cw, ch);
   ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+}
+
+// nearest loaded frame at or below idx, so partial loads still render
+function nearestLoaded(idx) {
+  for (let i = idx; i >= 0; i--) if (frames[i]) return frames[i];
+  return null;
 }
 
 let drawQueued = false;
@@ -48,13 +54,18 @@ function drawFrame() {
   drawQueued = true;
   requestAnimationFrame(() => {
     drawQueued = false;
-    if (framesReady) {
-      const idx = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(state.frame)));
-      let img = null;
-      for (let i = idx; i >= 0 && !img; i--) img = frames[i];
-      drawImageCover(img || fallbackImg);
-    } else {
-      drawImageCover(fallbackImg);
+    if (!framesReady) { drawImageCover(fallbackImg, true); return; }
+    const f = Math.max(0, Math.min(FRAME_COUNT - 1, state.frame));
+    const idx = Math.floor(f);
+    const frac = f - idx;
+    const a = nearestLoaded(idx) || fallbackImg;
+    const b = frames[idx + 1];
+    drawImageCover(a, true);
+    // sub-frame crossfade: fractional positions blend into the next frame
+    if (frac > 0.01 && b && b !== a) {
+      ctx.globalAlpha = frac;
+      drawImageCover(b, false);
+      ctx.globalAlpha = 1;
     }
   });
 }
@@ -87,6 +98,9 @@ async function boot() {
   fallbackImg = await loadImage("assets/hero-still.png");
   sizeCanvas();
   window.addEventListener("resize", sizeCanvas);
+  // the canvas can be laid out at 0×0 (hidden/backgrounded tab at boot) —
+  // re-size the backing store whenever its CSS box actually changes
+  if ("ResizeObserver" in window) new ResizeObserver(sizeCanvas).observe(canvas);
   await preloadFrames(p => { loaderBar.style.width = `${Math.round(p * 100)}%`; });
   loaderBar.style.width = "100%";
   setTimeout(() => {
@@ -116,11 +130,13 @@ function intro() {
 
 /* ══ HERO SCROLL TIMELINE — scrub the orbit ══════════════════ */
 if (!REDUCED) {
+  // slightly heavier scrub smoothing = GSAP eases toward the target frame,
+  // emitting many sub-frame updates the crossfade renderer turns into motion
   ScrollTrigger.create({
     trigger: "#hero",
     start: "top top",
     end: "bottom bottom",
-    scrub: 0.4,
+    scrub: 0.8,
     onUpdate: self => {
       state.frame = self.progress * (FRAME_COUNT - 1);
       drawFrame();

@@ -19,7 +19,7 @@ const GENRES = {
 const SITES = [
   {
     id: "maison-lumiere", name: "לומייר", genre: "קונדיטוריה וקפה", genreKey: "hospitality",
-    price: 12900, sold: false, creator: "נועה ב׳", built: "יוני 2026",
+    price: 12900, sold: false, creator: "נועה ב׳", built: "יוני 2026", demo: "demos/maison-lumiere/",
     desc: "מגזין חם ומסוכר לקונדיטוריה שכונתית — תפריט, הזמנות ויומן צילום באור של בוקר.",
     story: "לומייר נבנה סביב רעיון אחד: אתר של מאפייה צריך להרגיש כמו השעה הראשונה של הבוקר. הפלטה היא חמאה וצל, הטיפוגרפיה מתייצבת כמו זילוף, והתפריט נקרא כעמוד אחד רגוע. מערכת ההזמנות יושבת בשקט מאחורי הקלעים — נוכחת כשצריך, בלתי נראית כשלא. הוא נטען כמו לחישה ולעולם לא מרים את הקול.",
     features: ["יומן צילום באור בוקר", "תפריט עם הזמנה שקטה", "רצועת שעות פתיחה שיודעת איזה יום היום", "תוכן שהבעלים עורכים לבד — בלי מבוך של דשבורדים"],
@@ -28,7 +28,7 @@ const SITES = [
   },
   {
     id: "verre", name: "ורר", genre: "סטודיו זכוכית", genreKey: "commerce",
-    price: 12900, sold: false, creator: "דן ק׳", built: "יוני 2026",
+    price: 12900, sold: false, creator: "דן ק׳", built: "יוני 2026", demo: "demos/verre/",
     desc: "קריר, שקוף, מדויק — קטלוג לזכוכית מנופחת ביד, עם סיפורי מוצר שמסופרים בהשתקפויות.",
     story: "ורר מתייחס לכל חפץ כאילו מגיע לו כן תצוגה במוזיאון. שתים־עשרה יצירות, שנים־עשר סיפורים, כל אחת מצולמת מול אור במקום מול רקע. תהליך הרכישה נבנה לנפח נמוך ולכוונה גבוהה: בלי באנרים של דחיפות, בלי פסיכולוגיית עגלה — קנייה שקולה, שנעשית לאט. הזכוכית היא זו שמוכרת.",
     features: ["קטלוג של שתים־עשרה, מסופר בהשתקפויות", "רכישה שקטה — בלי טריקים של דחיפות", "תעודת מקור לכל יצירה", "עמוד תיאום ביקור בסטודיו"],
@@ -37,7 +37,7 @@ const SITES = [
   },
   {
     id: "solstice", name: "סולסטיס", genre: "ריטריט", genreKey: "hospitality",
-    price: 12900, sold: false, creator: "מאיה ר׳", built: "מאי 2026",
+    price: 12900, sold: false, creator: "מאיה ר׳", built: "מאי 2026", demo: "demos/solstice/",
     desc: "אתר שנגלל לאט — לוח מפגשים, חדרים וטופס הזמנה עטופים בגווני דיונה.",
     story: "סולסטיס נגלל בקצב של המקום שהוא מתאר. החדרים מוצגים באור טבעי בלבד. הלוח נושם — ריטריט אחד בכל פעם, אף פעם לא רשת של דחיפות. טופס ההזמנה שואל שלוש שאלות ואז זז מהדרך. נבנה לריטריט שמתמלא מפה לאוזן, ורוצה אתר שמתנהג בדיוק כך.",
     features: ["סיור חדרים בגלילה איטית", "לוח של ריטריט אחד בכל פעם", "טופס הזמנה של שלוש שאלות", "פלטת דיונות, אפס תמונות סטוק"],
@@ -55,7 +55,7 @@ const SITES = [
   },
   {
     id: "meridian", name: "מרידיאן", genre: "משרד אדריכלות", genreKey: "portfolio",
-    price: 12900, sold: false, creator: "דן ק׳", built: "יוני 2026",
+    price: 12900, sold: false, creator: "דן ק׳", built: "יוני 2026", demo: "demos/meridian/",
     desc: "פורטפוליו של שולחן שרטוט למשרד אדריכלות קטן — פרויקטים בתכנית, בחתך ובאור.",
     story: "מרידיאן מציג בניינים כמו שאדריכלים חושבים עליהם: קודם תכנית, אחר כך צילום. כל פרויקט נפתח כתיק עבודות — שרטוטים, אחר כך מודלים, ולבסוף האור הבנוי. הטיפוגרפיה יושבת על גריד קפדני שאף פעם לא מכריז על עצמו. עמוד המשרד מציג אנשים ועקרונות באותה נשימה, כי במשרד קטן הם אותו הדבר.",
     features: ["תיק עבודות: תכנית ← מודל ← אור", "גריד מודולרי קפדני, שנשמר בשקט", "עמוד משרד ועקרונות", "גיליונות פרויקט מוכנים להדפסה"],
@@ -111,6 +111,18 @@ function release(id) {
 
 /* ── תבניות כרטיס / תצוגה חיה ────────────────────────────────── */
 function previewHTML(site) {
+  // pieces with a real demo embed the actual running site, scaled down
+  if (site.demo) {
+    return `
+  <div class="card__frame card__frame--real">
+    <div class="card__bar"><i></i><i></i><i></i><em>${site.id}.one · חי</em></div>
+    <div class="livewrap">
+      <iframe src="${site.demo}" loading="lazy" tabindex="-1" scrolling="no"
+              title="${site.name} — אתר חי" aria-hidden="true"></iframe>
+    </div>
+    <button class="card__live-btn" data-demo="${site.id}">◉ תצוגה חיה</button>
+  </div>`;
+  }
   const t = site.theme;
   return `
   <div class="card__frame">
@@ -189,7 +201,7 @@ function scrubVideo(videoEl, triggerEl) {
     if (Math.abs((videoEl.currentTime || 0) - t) > 0.01) videoEl.currentTime = t;
   };
   ScrollTrigger.create({
-    trigger: triggerEl, start: "top top", end: "bottom bottom", scrub: 0.5,
+    trigger: triggerEl, start: "top top", end: "bottom bottom", scrub: 0.8,
     onUpdate: self => apply(self.progress)
   });
   videoEl.addEventListener("loadedmetadata", () => ScrollTrigger.refresh(), { once: true });

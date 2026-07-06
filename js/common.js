@@ -118,6 +118,58 @@ document.querySelectorAll("video[data-ambient]").forEach(v => {
 /* card hover highlights for any server-rendered cards */
 bindCardHighlights(document);
 
+/* ── live-demo lightbox — a real site, fully interactive ─────── */
+const livebox = document.createElement("div");
+livebox.className = "livebox";
+livebox.hidden = true;
+livebox.innerHTML = `
+  <div class="livebox__backdrop" data-lbclose></div>
+  <div class="livebox__panel" role="dialog" aria-modal="true" aria-label="תצוגה חיה">
+    <div class="livebox__head">
+      <div class="livebox__title">
+        <b id="lbName"></b>
+        <span class="livebox__hint">אתר חי · אפשר ללחוץ, לגלול ולהקליד</span>
+      </div>
+      <div class="livebox__actions">
+        <a class="livebox__link" id="lbPage" href="#">לעמוד היצירה</a>
+        <button class="livebox__close" data-lbclose aria-label="סגירה">×</button>
+      </div>
+    </div>
+    <iframe id="lbFrame" title="אתר חי"></iframe>
+  </div>`;
+document.body.appendChild(livebox);
+const lbFrame = livebox.querySelector("#lbFrame");
+
+function openLive(site) {
+  if (!site || !site.demo) return;
+  livebox.querySelector("#lbName").textContent = site.name;
+  livebox.querySelector("#lbPage").href = `site.html?id=${site.id}`;
+  lbFrame.src = site.demo;
+  livebox.hidden = false;
+  document.body.style.overflow = "hidden";
+  if (lenis) lenis.stop();
+  gsap.fromTo(".livebox__panel", { opacity: 0, y: 26, scale: 0.985 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" });
+}
+function closeLive() {
+  if (livebox.hidden) return;
+  livebox.hidden = true;
+  lbFrame.src = "about:blank";
+  document.body.style.overflow = "";
+  if (lenis) lenis.start();
+}
+document.addEventListener("click", e => {
+  const btn = e.target.closest(".card__live-btn");
+  if (btn) {
+    e.preventDefault();
+    e.stopPropagation();
+    openLive(siteById(btn.dataset.demo));
+    return;
+  }
+  if (e.target.closest("[data-lbclose]")) closeLive();
+});
+window.addEventListener("keydown", e => { if (e.key === "Escape") closeLive(); });
+
 /* ── mock-site notice — the shelf is illustrative for now ────── */
 const mocknote = document.createElement("div");
 mocknote.className = "mocknote";
