@@ -14,7 +14,7 @@ grid.innerHTML = featured.map(cardHTML).join("");
 bindCardHighlights(grid);
 
 /* ══ HERO FRAME SEQUENCE ═════════════════════════════════════ */
-const FRAME_COUNT = 193;
+const FRAME_COUNT = 383;
 const framePath = i => `assets/frames/orbit_${String(i + 1).padStart(4, "0")}.webp`;
 
 const canvas = document.getElementById("orbitCanvas");
