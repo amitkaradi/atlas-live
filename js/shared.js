@@ -190,6 +190,19 @@ function loadImage(src) {
 function scrubVideo(videoEl, triggerEl) {
   if (!videoEl) return;
   videoEl.muted = true;
+  // heavy scrub videos start downloading only when their section approaches,
+  // so they never compete with the hero frames on first load
+  if (videoEl.preload === "none" && "IntersectionObserver" in window) {
+    const trigger = typeof triggerEl === "string" ? document.querySelector(triggerEl) : triggerEl;
+    const io = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) {
+        videoEl.preload = "auto";
+        videoEl.load();
+        io.disconnect();
+      }
+    }, { rootMargin: "150% 0px" });
+    if (trigger) io.observe(trigger);
+  }
   if (REDUCED) {
     videoEl.loop = true; videoEl.autoplay = true;
     videoEl.play().catch(() => {});

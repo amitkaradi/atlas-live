@@ -15,7 +15,9 @@ bindCardHighlights(grid);
 
 /* ══ HERO FRAME SEQUENCE ═════════════════════════════════════ */
 const FRAME_COUNT = 383;
-const framePath = i => `assets/frames/orbit_${String(i + 1).padStart(4, "0")}.webp`;
+// small screens get the 880px set — a third of the bytes, same motion
+const FRAME_DIR = window.matchMedia("(max-width: 900px)").matches ? "frames-sm" : "frames";
+const framePath = i => `assets/${FRAME_DIR}/orbit_${String(i + 1).padStart(4, "0")}.webp`;
 
 const canvas = document.getElementById("orbitCanvas");
 const ctx = canvas.getContext("2d");
@@ -70,24 +72,51 @@ function drawFrame() {
   });
 }
 
+// Progressive streaming: a coarse pass (every 8th frame) covers the whole
+// orbit and gates the loader — the page opens after ~50 small files. The
+// remaining passes (4th, 2nd, all) stream in the background and the scrub
+// sharpens silently; nearestLoaded() renders whatever has arrived.
+function buildLoadOrder() {
+  const seen = new Set();
+  const order = [];
+  for (const stride of [8, 4, 2, 1]) {
+    for (let i = 0; i < FRAME_COUNT; i += stride) {
+      if (!seen.has(i)) { seen.add(i); order.push(i); }
+    }
+  }
+  return order;
+}
+
+async function loadIndices(indices, concurrency, onEach) {
+  let next = 0;
+  await Promise.all(Array.from({ length: concurrency }, async () => {
+    while (next < indices.length) {
+      const i = indices[next++];
+      if (!frames[i]) frames[i] = await loadImage(framePath(i));
+      onEach && onEach(i);
+    }
+  }));
+}
+
 async function preloadFrames(onProgress) {
   const probe = await loadImage(framePath(0));
   if (!probe) { onProgress(1); return; }
   frames[0] = probe;
   framesReady = true;
+  const order = buildLoadOrder();
+  const coarseCount = Math.ceil(FRAME_COUNT / 8);
   let loaded = 1;
-  const CONCURRENCY = 10;
-  let next = 1;
-  await Promise.all(Array.from({ length: CONCURRENCY }, async () => {
-    while (next < FRAME_COUNT) {
-      const i = next++;
-      frames[i] = await loadImage(framePath(i));
-      loaded++;
-      onProgress(loaded / FRAME_COUNT);
-      if (i % 8 === 0) drawFrame();
-    }
-  }));
+  // coarse pass — this is all the loader waits for
+  await loadIndices(order.slice(0, coarseCount), 8, i => {
+    loaded++;
+    onProgress(Math.min(1, loaded / coarseCount));
+    if (i % 16 === 0) drawFrame();
+  });
+  onProgress(1);
   drawFrame();
+  // the rest streams behind the open page, gentler on bandwidth
+  loadIndices(order.slice(coarseCount), 5, i => { if (i % 24 === 0) drawFrame(); })
+    .then(drawFrame);
 }
 
 /* ══ LOADER → INTRO ══════════════════════════════════════════ */
@@ -95,7 +124,7 @@ const loader = document.getElementById("loader");
 const loaderBar = document.getElementById("loaderBar");
 
 async function boot() {
-  fallbackImg = await loadImage("assets/hero-still.png");
+  fallbackImg = await loadImage("assets/hero-still.webp");
   sizeCanvas();
   window.addEventListener("resize", sizeCanvas);
   // the canvas can be laid out at 0×0 (hidden/backgrounded tab at boot) —

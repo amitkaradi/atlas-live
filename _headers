@@ -1,0 +1,10 @@
+# Media is versioned by folder — if frames/videos ever change, rename the
+# folder (e.g. frames2/) so returning visitors never see a stale mix.
+/assets/frames/*
+  Cache-Control: public, max-age=604800
+/assets/frames-sm/*
+  Cache-Control: public, max-age=604800
+/assets/video/*
+  Cache-Control: public, max-age=604800
+/assets/*
+  Cache-Control: public, max-age=86400
