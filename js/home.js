@@ -16,7 +16,7 @@ bindCardHighlights(grid);
 /* ══ HERO FRAME SEQUENCE ═════════════════════════════════════ */
 const FRAME_COUNT = 383;
 // small screens get the 880px set — a third of the bytes, same motion
-const FRAME_DIR = window.matchMedia("(max-width: 900px)").matches ? "frames-sm" : "frames";
+const FRAME_DIR = window.matchMedia("(max-width: 900px)").matches ? "frames2-sm" : "frames2";
 const framePath = i => `assets/${FRAME_DIR}/orbit_${String(i + 1).padStart(4, "0")}.webp`;
 
 const canvas = document.getElementById("orbitCanvas");
