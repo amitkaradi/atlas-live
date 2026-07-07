@@ -1,10 +1,11 @@
+# Netlify: the LAST matching rule wins — generic first, specific after.
 # Media is versioned by folder — if frames/videos ever change, rename the
 # folder (e.g. frames2/) so returning visitors never see a stale mix.
+/assets/*
+  Cache-Control: public, max-age=86400
 /assets/frames/*
   Cache-Control: public, max-age=604800
 /assets/frames-sm/*
   Cache-Control: public, max-age=604800
 /assets/video/*
   Cache-Control: public, max-age=604800
-/assets/*
-  Cache-Control: public, max-age=86400
