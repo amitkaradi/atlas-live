@@ -8,10 +8,17 @@
 gsap.registerPlugin(ScrollTrigger);
 
 /* ══ FEATURED SHELF — first three available pieces ═══════════ */
-const featured = SITES.filter(s => !s.sold).slice(0, 3);
 const grid = document.getElementById("featuredGrid");
+function renderFeatured() {
+  const featured = SITES.filter(s => !s.sold && s.live !== "sold").slice(0, 3);
+  grid.innerHTML = featured.map(cardHTML).join("");
+  grid.querySelectorAll(".reveal").forEach(el => el.classList.remove("reveal"));
+  bindCardHighlights(grid);
+}
+const featured = SITES.filter(s => !s.sold).slice(0, 3);
 grid.innerHTML = featured.map(cardHTML).join("");
 bindCardHighlights(grid);
+fetchLiveStatuses().then(ok => { if (ok) renderFeatured(); });
 
 /* ══ HERO FRAME SEQUENCE ═════════════════════════════════════ */
 const FRAME_COUNT = 383;

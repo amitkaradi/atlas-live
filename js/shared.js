@@ -94,7 +94,51 @@ const SITES = [
 const siteById = id => SITES.find(s => s.id === id) || null;
 const money = n => "₪" + n.toLocaleString();
 
-/* ── שמירות (מצב חנות פונקציונלי) ────────────────────────────── */
+/* ── שכבת API — Netlify Functions + Blobs ────────────────────── */
+// When the API is reachable (production), piece statuses are live and shared
+// between all visitors. Anywhere else (mirror, localhost) the site quietly
+// falls back to per-browser demo behavior.
+let LIVE = null; // id -> { status: available|reserved|sold, until? }
+
+async function api(path, body) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 4500);
+  try {
+    const r = await fetch(`/api/${path}`, body === undefined
+      ? { signal: ctrl.signal }
+      : { method: "POST", signal: ctrl.signal, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    if (!r.ok) {
+      const e = await r.json().catch(() => ({}));
+      const err = new Error(e.error || String(r.status));
+      err.status = r.status;
+      throw err;
+    }
+    return await r.json();
+  } finally { clearTimeout(t); }
+}
+
+async function fetchLiveStatuses() {
+  try {
+    const data = await api("pieces");
+    if (!data.pieces) return false;
+    LIVE = data.pieces;
+    SITES.forEach(s => {
+      const l = LIVE[s.id];
+      if (l) { s.live = l.status; s.liveUntil = l.until || 0; }
+    });
+    return true;
+  } catch (_) { LIVE = null; return false; }
+}
+const apiMode = () => LIVE !== null;
+
+/* reservation tokens — proof of "this hold is mine" */
+const TOK_KEY = "atlas-tokens";
+function getTokens() { try { return JSON.parse(localStorage.getItem(TOK_KEY)) || {}; } catch (_) { return {}; } }
+function myToken(id) { return getTokens()[id] || null; }
+function saveToken(id, token) { const t = getTokens(); t[id] = token; try { localStorage.setItem(TOK_KEY, JSON.stringify(t)); } catch (_) {} }
+function dropToken(id) { const t = getTokens(); delete t[id]; try { localStorage.setItem(TOK_KEY, JSON.stringify(t)); } catch (_) {} }
+
+/* ── שמירות (מצב הדגמה — לכל דפדפן בנפרד) ────────────────────── */
 const RES_KEY = "atlas-reserved";
 function getReserved() {
   try { return JSON.parse(localStorage.getItem(RES_KEY)) || []; } catch (_) { return []; }
@@ -145,9 +189,13 @@ function previewHTML(site) {
   </div>`;
 }
 
+function pieceReserved(site) {
+  return apiMode() ? site.live === "reserved" : isReserved(site.id);
+}
+
 function statusBadge(site) {
-  if (site.sold) return '<span class="badge badge--sold">נמכר</span>';
-  if (isReserved(site.id)) return '<span class="badge badge--reserved">שמור</span>';
+  if (site.sold || site.live === "sold") return '<span class="badge badge--sold">נמכר</span>';
+  if (pieceReserved(site)) return '<span class="badge badge--reserved">שמור</span>';
   return '<span class="badge badge--live">זמין עכשיו</span>';
 }
 

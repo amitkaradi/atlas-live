@@ -53,5 +53,7 @@ wireChips(statusGroup, "status");
 wireChips(genreGroup, "genre");
 
 render();
+// overlay live shelf state (shared between all visitors) once it arrives
+fetchLiveStatuses().then(ok => { if (ok) render(); });
 
 })();

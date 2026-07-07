@@ -93,13 +93,21 @@ document.querySelectorAll(".counter strong").forEach(el => {
   });
 });
 
-/* ── waitlist forms (any page) ───────────────────────────────── */
+/* ── waitlist forms (any page) — real signup, quiet fallback ─── */
 document.querySelectorAll("form[data-waitlist]").forEach(form => {
-  form.addEventListener("submit", e => {
+  form.addEventListener("submit", async e => {
     e.preventDefault();
     const email = form.querySelector('input[type="email"]');
     if (!email || !email.value || !email.checkValidity()) { email && email.focus(); return; }
-    try { localStorage.setItem("atlas-waitlist", email.value); } catch (_) {}
+    const submitBtn = form.querySelector("button");
+    if (submitBtn) submitBtn.disabled = true;
+    const hp = form.querySelector(".hp");
+    try {
+      await api("waitlist", { email: email.value.trim(), website: hp ? hp.value : "" });
+    } catch (_) {
+      // API unreachable (mirror/localhost) — keep the demo behavior
+      try { localStorage.setItem("atlas-waitlist", email.value); } catch (_) {}
+    }
     form.hidden = true;
     const ok = document.querySelector(form.dataset.waitlist);
     if (ok) {

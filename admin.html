@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ניהול — אטלס</title>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Assistant:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231A1712'/><text x='16' y='23' font-family='Georgia' font-size='20' text-anchor='middle' fill='%23F4F1EA'>א</text></svg>">
+</head>
+<body data-page="admin">
+
+<main class="adm">
+  <h1>אטלס · ניהול</h1>
+  <p class="adm__sub">הזמנות, שמירות פעילות, רשימת המתנה ומועמדויות — מתעדכן בכל רענון.</p>
+
+  <div id="login">
+    <div class="adm__login">
+      <input type="password" id="admKey" placeholder="מפתח ניהול" autocomplete="current-password">
+      <button class="btn btn--ink" id="admGo">כניסה</button>
+    </div>
+    <p class="adm__err" id="admErr"></p>
+  </div>
+
+  <div id="panel" hidden>
+    <h2>המדף עכשיו</h2>
+    <table id="tShelf"><thead><tr><th>יצירה</th><th>סטטוס</th><th>מוחזק ע״י</th><th>עד</th></tr></thead><tbody></tbody></table>
+
+    <h2>יומן הזמנות</h2>
+    <table id="tOrders"><thead><tr><th>מתי</th><th>פעולה</th><th>יצירה</th><th>שם</th><th>מייל</th><th>טלפון</th></tr></thead><tbody></tbody></table>
+
+    <h2>רשימת המתנה</h2>
+    <table id="tWait"><thead><tr><th>מתי</th><th>מייל</th></tr></thead><tbody></tbody></table>
+
+    <h2>מועמדויות יוצרים</h2>
+    <table id="tApps"><thead><tr><th>מתי</th><th>שם</th><th>מייל</th><th>תיק עבודות</th><th>הערה</th></tr></thead><tbody></tbody></table>
+  </div>
+</main>
+
+<script>
+(() => {
+"use strict";
+const $ = s => document.querySelector(s);
+const fmt = ts => new Date(ts).toLocaleString("he-IL", { dateStyle: "short", timeStyle: "short" });
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+const KIND = { reserve: "שריון", release: "שחרור" };
+const STATUS = { available: "זמין", reserved: "שמור", sold: "נמכר" };
+
+async function load(key) {
+  const r = await fetch("/api/admin", { headers: { Authorization: "Bearer " + key } });
+  if (r.status === 401) throw new Error("bad-key");
+  if (!r.ok) throw new Error("server");
+  return r.json();
+}
+
+function fill(sel, rows, cols) {
+  const tb = $(sel + " tbody");
+  tb.innerHTML = rows.length
+    ? rows.map(r => "<tr>" + cols(r).map(c => `<td>${c}</td>`).join("") + "</tr>").join("")
+    : `<tr><td class="empty" colspan="9">— ריק בינתיים —</td></tr>`;
+}
+
+function render(data) {
+  fill("#tShelf", Object.entries(data.shelf), ([id, s]) => [
+    `<b>${esc(id)}</b>`, STATUS[s.status] || esc(s.status),
+    s.by ? `${esc(s.by)} · ${esc(s.email)}${s.phone ? " · " + esc(s.phone) : ""}` : "—",
+    s.until ? fmt(s.until) : "—"
+  ]);
+  fill("#tOrders", data.orders, o => [
+    fmt(o.ts), KIND[o.kind] || esc(o.kind), `<b>${esc(o.id)}</b>`, esc(o.name), esc(o.email), esc(o.phone || "—")
+  ]);
+  fill("#tWait", data.waitlist, w => [fmt(w.ts), esc(w.email)]);
+  fill("#tApps", data.applications, a => [
+    fmt(a.ts), `<b>${esc(a.name)}</b>`, esc(a.email),
+    `<a href="${esc(a.portfolio)}" target="_blank" rel="noopener noreferrer">${esc(a.portfolio)}</a>`,
+    esc(a.note || "—")
+  ]);
+  $("#login").hidden = true;
+  $("#panel").hidden = false;
+}
+
+async function tryKey(key) {
+  $("#admErr").textContent = "";
+  try {
+    render(await load(key));
+    sessionStorage.setItem("atlas-admin-key", key);
+  } catch (e) {
+    sessionStorage.removeItem("atlas-admin-key");
+    $("#admErr").textContent = e.message === "bad-key" ? "המפתח לא נכון." : "השרת לא זמין — נסו שוב.";
+  }
+}
+
+$("#admGo").addEventListener("click", () => tryKey($("#admKey").value.trim()));
+$("#admKey").addEventListener("keydown", e => { if (e.key === "Enter") tryKey($("#admKey").value.trim()); });
+const saved = sessionStorage.getItem("atlas-admin-key");
+if (saved) tryKey(saved);
+})();
+</script>
+</body>
+</html>

@@ -50,19 +50,47 @@ const btn = document.getElementById("pieceAcquire");
 const hint = document.getElementById("pieceHint");
 const releaseBtn = document.getElementById("pieceRelease");
 
+/* real order form — appears when the API (production) is available */
+const orderForm = document.createElement("form");
+orderForm.className = "orderform";
+orderForm.hidden = true;
+orderForm.noValidate = true;
+orderForm.innerHTML = `
+  <div class="frow">
+    <input type="text" id="ordName" placeholder="השם שלכם" autocomplete="name" required aria-label="שם">
+    <input type="email" id="ordEmail" placeholder="your@email.com" autocomplete="email" required aria-label="מייל">
+  </div>
+  <input type="tel" id="ordPhone" placeholder="טלפון (לא חובה)" autocomplete="tel" aria-label="טלפון">
+  <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <p class="apply__err" id="ordErr" aria-live="polite"></p>
+  <button class="btn btn--gold" type="submit">לשריין ל-48 שעות</button>`;
+btn.insertAdjacentElement("afterend", orderForm);
+const ordErr = orderForm.querySelector("#ordErr");
+
 function paintActions() {
   document.getElementById("pieceBadge").innerHTML = statusBadge(site);
   renderProvenance();
-  if (site.sold) {
+  const soldNow = site.sold || site.live === "sold";
+  const reservedNow = pieceReserved(site);
+  const mine = apiMode() ? !!myToken(site.id) : reservedNow;
+
+  orderForm.hidden = true;
+  btn.hidden = false;
+  if (soldNow) {
     btn.disabled = true;
     btn.textContent = "איננו לתמיד";
     hint.textContent = "היצירה הזו ירדה מהמדף. היוצר שלה כבר בונה את הבאה.";
     releaseBtn.hidden = true;
-  } else if (isReserved(site.id)) {
+  } else if (reservedNow && mine) {
     btn.disabled = true;
     btn.textContent = "שמור — בדקו את המייל";
     hint.textContent = "אנחנו שומרים אותו 48 שעות בזמן שמדברים.";
     releaseBtn.hidden = false;
+  } else if (reservedNow) {
+    btn.disabled = true;
+    btn.textContent = "שמור כרגע";
+    hint.textContent = "מישהו מחזיק את היצירה ל-48 שעות. אם השמירה תשתחרר — היא תחזור לזמינה.";
+    releaseBtn.hidden = true;
   } else {
     btn.disabled = false;
     btn.textContent = "לרכוש את האתר";
@@ -70,16 +98,73 @@ function paintActions() {
     releaseBtn.hidden = true;
   }
 }
+
 btn.addEventListener("click", () => {
   if (btn.disabled || site.sold) return;
-  reserve(site.id);
-  paintActions();
+  if (!apiMode()) { // demo mode — per-browser hold, as before
+    reserve(site.id);
+    paintActions();
+    return;
+  }
+  btn.hidden = true;
+  orderForm.hidden = false;
+  orderForm.querySelector("#ordName").focus();
 });
-releaseBtn.addEventListener("click", () => {
-  release(site.id);
-  paintActions();
+
+orderForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  ordErr.textContent = "";
+  const name = orderForm.querySelector("#ordName");
+  const email = orderForm.querySelector("#ordEmail");
+  if (!name.value.trim()) { ordErr.textContent = "שם, כדי שנדע עם מי מדברים."; name.focus(); return; }
+  if (!email.value || !email.checkValidity()) { ordErr.textContent = "המייל הזה לא נראה תקין."; email.focus(); return; }
+  const submitBtn = orderForm.querySelector("button");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "רגע…";
+  try {
+    const res = await api("reserve", {
+      id: site.id,
+      name: name.value.trim(),
+      email: email.value.trim(),
+      phone: orderForm.querySelector("#ordPhone").value.trim(),
+      website: orderForm.querySelector(".hp").value
+    });
+    saveToken(site.id, res.token);
+    site.live = "reserved";
+    site.liveUntil = res.until;
+    paintActions();
+  } catch (err) {
+    if (err.status === 409) { // someone got here first
+      site.live = "reserved";
+      paintActions();
+    } else {
+      ordErr.textContent = "משהו השתבש — נסו שוב עוד רגע.";
+    }
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "לשריין ל-48 שעות";
+  }
 });
+
+releaseBtn.addEventListener("click", async () => {
+  if (!apiMode()) {
+    release(site.id);
+    paintActions();
+    return;
+  }
+  const token = myToken(site.id);
+  releaseBtn.disabled = true;
+  try {
+    await api("release", { id: site.id, token });
+    dropToken(site.id);
+    site.live = "available";
+    paintActions();
+  } catch (_) { /* keep state */ }
+  releaseBtn.disabled = false;
+});
+
 paintActions();
+fetchLiveStatuses().then(ok => { if (ok) paintActions(); });
 
 /* ── provenance (re-rendered whenever the piece's state changes) ─ */
 function renderProvenance() {
@@ -87,9 +172,9 @@ function renderProvenance() {
     { when: site.built, what: `נבנה בידי ${site.creator}`, note: "בן יחיד, מהשורה הראשונה של הקוד." },
     { when: "עלה למדף", what: "נכנס לגלריה", note: "אמיתי, רץ וקליקבילי מהיום הראשון." }
   ];
-  if (site.sold) {
+  if (site.sold || site.live === "sold") {
     steps.push({ when: "נמכר", what: "ירד מהמדף, לתמיד", note: "הותאם ונחתם עבור הבעלים היחיד שלו.", now: true });
-  } else if (isReserved(site.id)) {
+  } else if (pieceReserved(site)) {
     steps.push({ when: "עכשיו", what: "בשמירה — 48 שעות", note: "שמור בזמן שמדברים. החזר מלא עד העלייה לאוויר.", now: true });
   } else {
     steps.push({ when: "עכשיו", what: "זמין — עדיין נושם", note: "הבעלים הבא יסיים את ציר הזמן הזה.", now: true });

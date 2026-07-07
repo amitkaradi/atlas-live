@@ -1,3 +1,15 @@
+# Security baseline for every page
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; frame-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'
+
+# The admin page must never be indexed
+/admin.html
+  X-Robots-Tag: noindex, nofollow
+
 # Netlify: the LAST matching rule wins — generic first, specific after.
 # Media is versioned by folder/name — if frames/videos ever change, rename
 # (frames2 → frames3, *_hq → *_hq2) so returning visitors never see a stale mix.
