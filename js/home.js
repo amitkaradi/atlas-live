@@ -229,7 +229,9 @@ if (!REDUCED) {
   // slide, never less than 1.9 screens, never more than the old 4.2
   const sizePin = () => {
     const vh = window.innerHeight;
-    const extra = Math.min(Math.max(getDistance() * 3.2, vh * 1.9), vh * 3.2);
+    const phone = window.innerWidth <= 760;           // phones: quicker, ~2.2px per 1px
+    const perPx = phone ? 2.2 : 3.2, maxScreens = phone ? 2.5 : 3.2;
+    const extra = Math.min(Math.max(getDistance() * perPx, vh * 1.9), vh * maxScreens);
     how.style.height = `${Math.round(vh + extra)}px`;
   };
   sizePin();

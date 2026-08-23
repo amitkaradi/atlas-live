@@ -6,6 +6,8 @@
 const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 if (REDUCED) document.documentElement.classList.add("no-motion");
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+// phones: the URL bar showing/hiding fires resize — don't re-measure every pin for that
+if (window.ScrollTrigger) ScrollTrigger.config({ ignoreMobileResize: true });
 
 /* ── המדף ────────────────────────────────────────────────────── */
 const GENRES = {
