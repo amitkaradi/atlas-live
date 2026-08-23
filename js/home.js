@@ -203,20 +203,43 @@ if (!REDUCED) {
 scrubVideo(document.getElementById("aliveVideo"), "#alive");
 scrubVideo(document.getElementById("exclVideo"), ".excl__stage");
 
-/* ══ HOW IT WORKS — pinned horizontal steps ══════════════════ */
+/* ══ HOW IT WORKS — pinned steps ═════════════════════════════
+   The section is a CSS-sticky pin (.how / .how__pin). Scrolling through
+   it drives ONE scrubbed timeline:
+     • steps 02–04 light up one after another (always — so the pin is
+       never a dead scroll, even on wide screens where all four fit)
+     • the track slides sideways by exactly its overflow (0 when it fits)
+   The pin length is sized to the content on every refresh: long enough
+   for the slide on laptops/phones, shorter where there is nothing to
+   slide — no more 3 screens of a frozen section on wide monitors. */
 if (!REDUCED) {
+  const how = document.getElementById("how");
   const track = document.getElementById("howTrack");
   const howBar = document.getElementById("howBar");
   const pin = document.getElementById("howPin");
+  const steps = gsap.utils.toArray(".step");
   const getDistance = () => {
     const pad = parseFloat(getComputedStyle(pin).paddingLeft) || 0;
     return Math.max(0, track.scrollWidth - (window.innerWidth - pad * 2));
   };
   // in RTL the track lays out right-to-left, so it slides the other way
   const dirSign = document.documentElement.dir === "rtl" ? 1 : -1;
-  gsap.to(track, {
-    x: () => dirSign * getDistance(),
-    ease: "none",
+
+  // pin length = one screen + scroll room: ~3.2px of scroll per 1px of
+  // slide, never less than 1.9 screens, never more than the old 4.2
+  const sizePin = () => {
+    const vh = window.innerHeight;
+    const extra = Math.min(Math.max(getDistance() * 3.2, vh * 1.9), vh * 3.2);
+    how.style.height = `${Math.round(vh + extra)}px`;
+  };
+  sizePin();
+  ScrollTrigger.addEventListener("refreshInit", sizePin);
+
+  // dim the later steps up-front (no flash); step 01 keeps its own entrance
+  gsap.set(steps.slice(1), { opacity: 0.3, y: 22 });
+
+  const tl = gsap.timeline({
+    defaults: { ease: "none" },
     scrollTrigger: {
       trigger: "#how",
       start: "top top",
@@ -226,12 +249,15 @@ if (!REDUCED) {
       onUpdate: self => { howBar.style.width = `${self.progress * 100}%`; }
     }
   });
-  gsap.utils.toArray(".step").forEach(step => {
-    gsap.from(step, {
-      opacity: 0.25, y: 26,
-      scrollTrigger: { trigger: "#how", start: "top 60%", once: true },
-      duration: 1, ease: "power2.out"
-    });
+  tl.to(track, { x: () => dirSign * getDistance(), duration: 1 }, 0);
+  steps.slice(1).forEach((step, i) => {
+    tl.to(step, { opacity: 1, y: 0, duration: 0.22, ease: "power2.out" }, 0.06 + i * 0.27);
+  });
+
+  gsap.from(steps[0], {
+    opacity: 0.25, y: 26,
+    scrollTrigger: { trigger: "#how", start: "top 60%", once: true },
+    duration: 1, ease: "power2.out"
   });
 }
 
