@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laura — Privacy Policy</title>
+<style>
+  body { font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; color: #1b1b1f; background: #fff; }
+  h1 { font-size: 28px; } h2 { font-size: 20px; margin-top: 32px; }
+  code { background: #f3f3f6; padding: 1px 5px; border-radius: 4px; }
+  .meta { color: #666; font-size: 14px; }
+</style>
+</head>
+<body>
+<h1>Laura — Privacy Policy</h1>
+<p class="meta">App: Laura (<code>com.amitkaradi.laura</code>) · Developer: Amit Karadi · Effective 6 October 2026</p>
+
+<p>Laura is a personal voice assistant. It is built for one person's own phone and talks only to that person's own computer. It has no accounts, no advertising, no analytics and no third-party tracking of any kind.</p>
+
+<h2>What the app processes, and why</h2>
+<ul>
+  <li><strong>Voice.</strong> Audio is listened to on the device for a wake word (processed locally by the Picovoice Porcupine engine; no audio leaves the phone for this). After the wake word, or when you press the talk button, one utterance is transcribed by the phone's speech recognizer (Android's system recognizer, which may use Google's speech service according to your phone settings; an on-device-only option exists in Settings). The text of what you said is sent to <em>your own computer</em> to produce the answer.</li>
+  <li><strong>Contacts.</strong> Read on the device to let you call or message people by name. Names of contacts that match the words you said are sent to your computer with your request so the assistant can resolve who you meant. Phone numbers are never sent.</li>
+  <li><strong>Calls and SMS.</strong> Used only to place a call or send a message you asked for, and only after the app reads it back to you and you confirm by voice.</li>
+  <li><strong>Notifications.</strong> With your explicit "notification access" permission, recent message notifications are kept in memory (never on disk, at most 24 hours) so you can ask "what did I miss". They are sent to your computer only when you ask for a summary. Senders you exclude in Settings are never read.</li>
+  <li><strong>Screen contents.</strong> With your explicit accessibility permission, the text on screen is read <em>only when you ask</em> ("what am I looking at?"), with a visible indicator, and sent to your computer with your question. Nothing is captured in the background, and the service never performs actions on your behalf.</li>
+  <li><strong>Camera.</strong> Only on the dedicated Look / Live screens you open yourself, with a visible preview and banner. Frames are sent to your computer with your question. The camera is never used in the background.</li>
+  <li><strong>Spotify.</strong> If you connect Spotify, the app uses Spotify's Web API with a token you authorise (OAuth PKCE, no client secret) to search and start playback. The token is stored encrypted on the device.</li>
+  <li><strong>Device settings</strong> (torch, brightness, Do Not Disturb, volume, alarms, timers) are changed only on your voice request.</li>
+</ul>
+
+<h2>Where data goes</h2>
+<p>All assistant requests go to a server that you run on your own computer and configure yourself in the app (its address and access key). The developer of this app operates no server and receives no data from the app. The only third parties the app can reach are: Spotify (only if you connect it), Picovoice (a one-time licence check of your wake-word key, no audio), and your phone's speech-recognition and text-to-speech providers as configured by Android.</p>
+
+<h2>Storage and security</h2>
+<ul>
+  <li>Access keys and tokens are encrypted with a key held in the Android Keystore.</li>
+  <li>Conversation transcripts are kept in memory only and discarded when the app closes.</li>
+  <li>Requests that could not reach your computer are queued encrypted on the device and deleted once delivered.</li>
+  <li>App data is excluded from Android backups and device-to-device transfer.</li>
+  <li>Connections to your computer use HTTPS, or plain HTTP only on private networks (LAN, Tailscale).</li>
+</ul>
+
+<h2>Data sharing and sale</h2>
+<p>No data is sold, shared with advertisers, or used for any purpose other than carrying out the request you made.</p>
+
+<h2>Your choices</h2>
+<p>Every permission can be revoked in Android settings; the app keeps working with reduced features. Uninstalling the app deletes everything it stored on the device. Data sent to your own computer is under your control there.</p>
+
+<h2>Children</h2>
+<p>The app is not directed at children and is not intended for users under 18.</p>
+
+<h2>Contact</h2>
+<p>Amit Karadi — <a href="mailto:joni.hamood@gmail.com">joni.hamood@gmail.com</a></p>
+</body>
+</html>
