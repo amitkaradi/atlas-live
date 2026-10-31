@@ -74,7 +74,7 @@ function render(data) {
   fill("#tWait", data.waitlist, w => [fmt(w.ts), esc(w.email)]);
   fill("#tApps", data.applications, a => [
     fmt(a.ts), `<b>${esc(a.name)}</b>`, esc(a.email),
-    `<a href="${esc(a.portfolio)}" target="_blank" rel="noopener noreferrer">${esc(a.portfolio)}</a>`,
+    (/^https?:\/\//i.test(String(a.portfolio || "")) ? `<a href="${esc(a.portfolio)}" target="_blank" rel="noopener noreferrer">${esc(a.portfolio)}</a>` : esc(a.portfolio)),
     esc(a.note || "—")
   ]);
   $("#login").hidden = true;
