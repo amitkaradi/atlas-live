@@ -157,7 +157,7 @@ def load_earnings_dates(ticker: str, data_dir: str) -> pd.DatetimeIndex:
         try:
             import yfinance as yf
 
-            ed = yf.Ticker(ticker).get_earnings_dates(limit=120)
+            ed = yf.Ticker(ticker).get_earnings_dates(limit=100)  # yfinance >= 1.x raises above 100
             if ed is not None and len(ed):
                 dates = sorted(set(pd.to_datetime(ed.index).tz_localize(None).normalize()))
         except Exception:

@@ -1,0 +1,99 @@
+QPM v2 ablation.  5157 weekly forecasts, 8 tickers, 2014-01 to 2026-10, vol=ewma, 32 min
+
+=== 1. Density: mean out-of-sample log-likelihood per forecast, relative to vol-scaled Student-t (vol_t) ===
+    > 0 means better than the best v1 benchmark.
+         gauss  student_t  vol_gauss  vol_t  vol_t_earn  A_static   B_vol   C_mix   D_mom  E_levels  F_anchor  G_earn  H_full
+ticker                                                                                                                       
+AAPL   -0.0725    -0.0361    -0.0493    0.0      0.0354   -0.0420 -0.0021  0.0032  0.0040   -0.0060    0.0047  0.0302  0.0235
+JPM    -0.1464    -0.0442    -0.0436    0.0     -0.0002   -0.0755 -0.0036 -0.0015 -0.0028   -0.0117   -0.0037 -0.0018 -0.0155
+KO     -0.2432    -0.0443    -0.0276    0.0      0.0043   -0.0517 -0.0028 -0.0026 -0.0045   -0.0107   -0.0027  0.0021 -0.0077
+NVDA   -0.0772    -0.0256    -0.0543    0.0      0.0219   -0.0282 -0.0034 -0.0017 -0.0022   -0.0104   -0.0116  0.0199 -0.0037
+QQQ    -0.1394    -0.0709    -0.0183    0.0      0.0000   -0.0847 -0.0042 -0.0020 -0.0023   -0.0088   -0.0069 -0.0020 -0.0144
+SPY    -0.2566    -0.0854    -0.0335    0.0      0.0000   -0.1116 -0.0050 -0.0028 -0.0027   -0.0180   -0.0101 -0.0028 -0.0233
+TSLA   -0.0567    -0.0186    -0.0145    0.0      0.0071   -0.0233 -0.0031 -0.0030 -0.0059   -0.0106   -0.0022  0.0048 -0.0088
+XOM    -0.2386    -0.0733    -0.0550    0.0      0.0022   -0.0841 -0.0110 -0.0056 -0.0047   -0.0074   -0.0175 -0.0000 -0.0131
+ALL    -0.1548    -0.0501    -0.0372    0.0      0.0088   -0.0630 -0.0044 -0.0020 -0.0026   -0.0105   -0.0063  0.0063 -0.0079
+
+Paired t-stats of per-forecast log-likelihood differences (|t| > 2 is significant):
+   A_static vs gauss       mean +0.0918  t = +5.27   better on 8/8 tickers
+      B_vol vs A_static    mean +0.0586  t = +6.21   better on 8/8 tickers
+      C_mix vs B_vol       mean +0.0024  t = +3.20   better on 8/8 tickers
+      C_mix vs vol_t       mean -0.0020  t = -1.78   better on 1/8 tickers
+      D_mom vs C_mix       mean -0.0006  t = -1.02   better on 3/8 tickers
+   E_levels vs C_mix       mean -0.0085  t = -5.10   better on 0/8 tickers
+   F_anchor vs C_mix       mean -0.0043  t = -2.90   better on 2/8 tickers
+     G_earn vs C_mix       mean +0.0083  t = +3.18   better on 5/8 tickers
+     G_earn vs vol_t_earn  mean -0.0025  t = -1.86   better on 0/8 tickers
+     H_full vs C_mix       mean -0.0059  t = -1.74   better on 1/8 tickers
+     H_full vs vol_t       mean -0.0079  t = -2.27   better on 1/8 tickers
+     H_full vs vol_t_earn  mean -0.0167  t = -6.23   better on 0/8 tickers
+
+Earnings weeks only (364 forecasts): mean ll relative to vol_t
+ll_vol_t         0.0000
+ll_vol_t_earn    0.1253
+ll_C_mix        -0.0098
+ll_G_earn        0.1077
+ll_H_full        0.0761
+
+=== 2. Calibration: interval coverage % (target in header) and downside VaR breaches % ===
+               50%     90%     98%  VaR5 breach%  Kupiec p5  VaR1 breach%  Kupiec p1  size rank corr  realised/pred size  y>median %
+gauss       56.835  89.219  95.598         5.972      0.002         2.618      0.000           0.370               0.959      52.880
+student_t   49.409  87.803  96.956         7.000      0.000         1.842      0.000           0.373               1.032      51.231
+vol_gauss   52.841  88.637  96.083         6.768      0.000         2.560      0.000           0.444               0.973      52.880
+vol_t       49.312  89.122  97.712         6.826      0.000         1.551      0.000           0.443               0.963      51.348
+vol_t_earn  50.572  90.285  98.197         6.380      0.000         1.338      0.020           0.454               0.914      51.270
+A_static    49.137  87.919  96.994         6.671      0.000         1.745      0.000           0.371               1.036      52.880
+B_vol       49.253  89.141  97.789         6.574      0.000         1.435      0.003           0.443               0.964      52.880
+C_mix       49.176  89.180  97.789         6.632      0.000         1.454      0.002           0.443               0.964      52.880
+D_mom       49.292  89.083  97.828         6.748      0.000         1.435      0.003           0.444               0.965      52.511
+E_levels    48.536  88.734  97.712         6.806      0.000         1.493      0.001           0.448               0.984      52.686
+F_anchor    48.284  89.180  97.654         6.341      0.000         1.454      0.002           0.446               0.970      53.772
+G_earn      50.475  90.207  98.255         6.205      0.000         1.260      0.071           0.454               0.916      52.880
+H_full      48.769  89.626  98.041         6.166      0.000         1.280      0.053           0.465               0.946      53.132
+
+=== 3. The 10 worst weeks: 1-in-N odds each model gave a drop at least that bad ===
+ticker       date  move %        gauss   vol_t     A_static  C_mix  H_full
+  TSLA 2020-03-09   -26.8 9.081790e+05    31.0 5.957000e+03   27.0    27.0
+  NVDA 2018-11-14   -26.6 3.664014e+08    81.0 7.912000e+03   73.0     5.0
+   JPM 2020-03-02   -23.1 1.000000e+12  1515.0 1.000000e+12 1860.0  1898.0
+  AAPL 2025-04-01   -22.7 1.000000e+12 31182.0 1.075254e+10 9564.0  9293.0
+   XOM 2020-03-02   -22.3 1.000000e+12   245.0 1.323762e+06  231.0   510.0
+  TSLA 2025-05-29   -20.6 2.430000e+02    60.0 1.440000e+02   59.0    55.0
+  TSLA 2022-12-15   -20.5 1.650000e+02    70.0 6.200000e+01   66.0    44.0
+  NVDA 2020-03-09   -20.0 8.954000e+03    51.0 2.540000e+02   47.0    47.0
+  TSLA 2016-02-02   -18.9 8.920000e+02   294.0 1.910000e+02  291.0   262.0
+  TSLA 2020-03-02   -18.2 9.630000e+02    11.0 2.250000e+02   10.0    10.0
+
+=== 4. Direction (weekly).  Brier vs the training up-rate; long/flat and long/short strategies, 0.1% per trade ===
+            brier  brier_clim    hit  mean_pup  LF cagr  LF sharpe  LF maxdd  LF pct_long  LS cagr  LS sharpe  LS maxdd
+model                                                                                                                  
+vol_t       0.247       0.244  0.573     0.566    0.234      0.696     0.488        0.973    0.225      0.672     0.488
+C_mix       0.248       0.244  0.574     0.551    0.238      0.703     0.457        0.951    0.234      0.676     0.487
+D_mom       0.248       0.244  0.567     0.554    0.212      0.658     0.453        0.942    0.183      0.559     0.497
+F_anchor    0.249       0.244  0.559     0.540    0.209      0.621     0.490        0.864    0.177      0.495     0.512
+H_full      0.251       0.244  0.545     0.544    0.176      0.560     0.459        0.817    0.114      0.293     0.590
+buy&hold      NaN         NaN    NaN       NaN    0.242      0.705     0.488        1.000      NaN        NaN       NaN
+mom20 rule    NaN         NaN    NaN       NaN    0.131      0.533     0.356        0.617      NaN        NaN       NaN
+  (strategy numbers are averages over tickers; CAGR per ticker, equal weights)
+
+=== 5. Fitted parameters ===
+median over yearly fits:
+        A_theta  B_theta  C_theta    C_nu  C_depth  C_width  zt_df  k0_scale  lam_anchor  level_scale  earn_depth  earn_mult  fit_sec
+ticker                                                                                                                               
+AAPL      0.693    0.736    0.705   9.592  220.409    1.262  4.755       0.1         0.0          0.0         0.0      1.980    117.0
+JPM       0.692    0.748    0.711   7.749  311.604    1.325  4.405       0.0         0.0          0.0         0.0      1.253    117.4
+KO        0.669    0.682    0.760  16.707  226.757    1.136  5.479       0.0         2.0          0.0         0.0      1.522    116.4
+NVDA      0.717    0.729    0.702   9.239  265.889    1.047  6.488       0.0         0.0         10.0         0.0      1.746    118.4
+QQQ       0.697    0.620    0.506   4.997  368.152    1.693  6.339       0.0         0.0          0.0         0.0      1.000    115.6
+SPY       0.736    0.754    0.666   3.363  353.318    1.313  4.394       0.0         0.0         25.0         0.0      1.000    114.0
+TSLA      0.706    0.530    0.678  13.995  184.435    1.164  6.769       0.1         0.0         10.0         0.0      1.782    117.9
+XOM       0.668    0.696    0.665  13.705  179.393    1.054  5.841       0.0         0.0          0.0         0.0      1.544    117.4
+
+how often each grid-fitted feature was switched OFF (value 0) in-sample:
+  k0_scale     off in 66% of fits;  values: [0.   0.1  0.2  0.35]
+  lam_anchor   off in 69% of fits;  values: [0. 2. 5.]
+  level_scale  off in 51% of fits;  values: [  0.  10.  25.  50. 100. 200.]
+  earn_depth   off in 95% of 77 fits with earnings data
+  theta at a bound (0.2 or 0.85) in 0% of C fits;  nu at 60 in 9%
+
+mean yearly 'A_static' vs v1: theta median 0.698 (v1 was 0.69), depth median 308
