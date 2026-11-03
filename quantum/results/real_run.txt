@@ -61,4 +61,3 @@ ALL        0.570      0.249       0.246     0.940      NaN        NaN       NaN 
 
   bh = buy & hold, qpm = long when QPM P(up) > 0.5, mom = long when 20-day return > 0.  No costs.
 
-results in C:\Users\עמית\AppData\Local\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude\scratch-workspaces\c4d4eee6-67df-4925-90f2-430eef283880\91f200ba-6c0c-4f21-a462-c949d15b985f\scratch-2026-11-03-b1d1a4\quantum\results, figures R1/R2 in C:\Users\עמית\AppData\Local\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude\scratch-workspaces\c4d4eee6-67df-4925-90f2-430eef283880\91f200ba-6c0c-4f21-a462-c949d15b985f\scratch-2026-11-03-b1d1a4\quantum\figures

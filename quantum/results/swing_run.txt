@@ -67,4 +67,3 @@ year      2014  2015  2016  2017  2018  2019  2020  2021  2022  2023  2024  2025
 QPM       93.1  88.7  87.7  95.1  83.3  90.4  65.7  94.4  81.6  98.2  92.2  89.0  89.0
 EWMA QPM  85.8  90.9  89.0  87.0  87.3  90.9  87.0  84.6  86.3  88.5  84.6  87.0  89.6
 
-figure: C:\Users\עמית\AppData\Local\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude\scratch-workspaces\c4d4eee6-67df-4925-90f2-430eef283880\91f200ba-6c0c-4f21-a462-c949d15b985f\scratch-2026-11-03-b1d1a4\quantum\figures\R3_swing_size.png
