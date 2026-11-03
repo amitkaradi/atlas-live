@@ -64,9 +64,11 @@ class Potential:
     lam: float = 0.0
     x_f: float = 0.0
     levels: list[tuple[float, float, float]] = field(default_factory=list)
+    level_scale: float = 1.0  # multiplies every level height (one fittable knob for all barriers)
     quartic: tuple[float, float] = (0.0, 0.0)
     magnet_depth: float = 0.0
     magnet_width: float = 0.05
+    magnet_x: float = 0.0  # centre of the magnet (today's price in the drifting frame)
 
     def __call__(self, x: np.ndarray) -> np.ndarray:
         v = self.lam * (x - self.x_f) ** 2
@@ -74,10 +76,18 @@ class Potential:
         if a or b:
             v = v + a * x**4 - b * x**2
         if self.magnet_depth:
-            v = v - self.magnet_depth * np.exp(-0.5 * ((x - self.x_f) / self.magnet_width) ** 2)
+            v = v - self.magnet_depth * np.exp(-0.5 * ((x - self.magnet_x) / self.magnet_width) ** 2)
         for xj, hj, wj in self.levels:
-            v = v + hj * np.exp(-0.5 * ((x - xj) / wj) ** 2)
+            v = v + self.level_scale * hj * np.exp(-0.5 * ((x - xj) / wj) ** 2)
         return v
+
+    @staticmethod
+    def double_well(depth: float, x_min: float) -> tuple[float, float]:
+        """(a, b) for a x^4 - b x^2 with minima at +-x_min and well depth `depth`."""
+        if depth <= 0 or x_min <= 0:
+            return (0.0, 0.0)
+        a = depth / x_min**4
+        return (a, 2.0 * a * x_min**2)
 
 
 # ----------------------------------------------------------------------------
@@ -99,6 +109,12 @@ class QPMParams:
     omega: float = 0.0  # sentiment flip rate (bull <-> bear)
     p_bull: float = 0.5  # initial probability of the bull regime
     potential: Potential = field(default_factory=Potential)
+    # --- added for the v2 backtest -------------------------------------------
+    v_mom: float = 0.0  # momentum: an extra drift (per year) that decays with time constant tau_mom
+    tau_mom: float = 20.0 / 252.0  # momentum half-life scale (years).  Displacement = v_mom * tau * (1 - exp(-t/tau))
+    comoving: bool = True  # potential rides along with the drift mu (fixes the bearish median of v1)
+    nu: float = np.inf  # mixed state over the "mass": sigma^2 ~ sigma^2 * nu / chi2_nu.  inf = pure state
+    n_mix: int = 7  # quadrature nodes for the mass mixture
 
     @property
     def z(self) -> complex:
@@ -124,6 +140,24 @@ def momentum_from_returns(log_returns: Sequence[float], sigma: float, dt_days: f
     r = np.asarray(log_returns, dtype=float)
     v = r.mean() * (252.0 / dt_days)  # annualised trend
     return float(v / (2.0 * sigma**2))
+
+
+def mass_mixture_nodes(nu: float, K: int = 7) -> tuple[np.ndarray, np.ndarray]:
+    """Variance multipliers m_k and weights w_k for sigma^2 -> sigma^2 * m,
+    m = nu / W, W ~ chi2_nu (the scale mixture that turns a Gaussian into a
+    Student-t with nu degrees of freedom).  Nodes sit at fixed quantiles so the
+    outermost one reaches well into the tail; weights are the quantile cells."""
+    from scipy import stats
+
+    if K == 1 or not np.isfinite(nu):
+        return np.ones(1), np.ones(1)
+    edges = np.linspace(0, 1, K + 1)
+    edges = 0.5 * (1 - np.cos(np.pi * edges))  # denser cells in the tails
+    mids = 0.5 * (edges[1:] + edges[:-1])
+    w = np.diff(edges)
+    m = nu / stats.chi2.ppf(1 - mids, nu)
+    m = m / np.sum(w * m)  # unit mean variance multiplier -> sigma keeps its meaning
+    return m, w / w.sum()
 
 
 # ----------------------------------------------------------------------------
@@ -184,8 +218,14 @@ class QuantumPriceModel:
         half = 0.5 * dt
         # potential + spinor part: H_pot = V(x) I + b(x) sigma_z + c sigma_x
         a = self._apply_spinor_potential(a, z * half)
-        # kinetic + drift in momentum space: exp(-z sigma^2 k^2 dt) exp(-i k mu dt)
-        kin = np.exp(-z * p.sigma**2 * self.k**2 * dt - 1j * self.k * p.mu * dt)
+        # kinetic + drift in momentum space: exp(-z sigma^2 k^2 dt) exp(-i k mu dt).
+        # In the comoving frame the drift is applied to the density at read-out instead,
+        # so the potential (magnet, levels, anchor) rides along with the fair value.
+        if p.comoving:
+            drift = 0.0
+        else:  # drift + decaying momentum, integrated over this step
+            drift = self._displacement(self.t + dt) - self._displacement(self.t)
+        kin = np.exp(-z * p.sigma**2 * self.k**2 * dt - 1j * self.k * drift)
         shape = (1, self.N) + (1,) * (a.ndim - 2)
         a = np.fft.ifft(np.fft.fft(a, axis=1) * kin.reshape(shape), axis=1)
         a = self._apply_spinor_potential(a, z * half)
@@ -248,7 +288,8 @@ class QuantumPriceModel:
         pdf = self.density()
         x_obs = rng.choice(self.x, p=pdf / pdf.sum())
         s = sigma_post or self.p.sigma0
-        proj = np.exp(-((self.x - x_obs) ** 2) / (4 * s**2))
+        x_frame = x_obs - self._shift()  # project in the frame the state lives in
+        proj = np.exp(-((self.x - x_frame) ** 2) / (4 * s**2))
         if self.psi is not None:
             self.psi = self.psi * proj[None, :]
             self.psi /= np.sqrt(self._norm_pure(self.psi))
@@ -259,13 +300,34 @@ class QuantumPriceModel:
         return float(x_obs)
 
     # ----- observables ---------------------------------------------------------
+    def _displacement(self, t: float) -> float:
+        """Classical displacement by time t: drift mu plus the decaying momentum drift.
+
+        The phase momentum k0 is a genuine quantum feature, but for theta < 1 the
+        diffusive part of the evolution erases it within tau = sigma0^2 / ((1-theta) sigma^2),
+        which is a tiny fraction of any horizon.  So persistence of a trend is modelled
+        explicitly: v(t) = v_mom exp(-t / tau_mom)."""
+        p = self.p
+        mom = p.v_mom * p.tau_mom * (1.0 - np.exp(-t / p.tau_mom)) if p.v_mom else 0.0
+        return p.mu * t + mom
+
+    def _shift(self) -> float:
+        """Lab-frame displacement of the comoving frame at the current time."""
+        return self._displacement(self.t) if self.p.comoving else 0.0
+
     def density(self) -> np.ndarray:
-        """p(x) = sum_s |psi_s(x)|^2  (or diagonal of rho), normalised to 1 in dx."""
+        """p(x) = sum_s |psi_s(x)|^2  (or diagonal of rho), normalised to 1 in dx,
+        on the lab-frame grid self.x (shifted by mu t in the comoving frame)."""
         if self.psi is not None:
             d = np.sum(np.abs(self.psi) ** 2, axis=0)
         else:
             d = np.diag(self.rho).real.reshape(2, self.N).sum(axis=0)
-        return d / (d.sum() * self.dx)
+        d = d / (d.sum() * self.dx)
+        s = self._shift()
+        if s:
+            d = np.interp(self.x - s, self.x, d, left=0.0, right=0.0)
+            d = d / max(d.sum() * self.dx, 1e-300)
+        return d
 
     def prob_bull(self) -> float:
         if self.psi is not None:
@@ -340,7 +402,59 @@ class QuantumPriceModel:
     def log_likelihood(self, realised_x: Sequence[float]) -> float:
         """Sum of log p(x_i) for realised log-returns at the current horizon."""
         p = np.maximum(self.density(), 1e-300)
-        return float(np.sum(np.log(np.interp(realised_x, self.x, p))))
+        return float(np.sum(np.log(np.interp(realised_x, self.x, p, left=1e-300, right=1e-300))))
+
+
+class QPMEnsemble:
+    """A mixed state over the particle's mass: rho = sum_k w_k |psi_k><psi_k|
+    with sigma_k^2 = sigma^2 * m_k, (m_k, w_k) from `mass_mixture_nodes(nu)`.
+
+    Economically: the volatility itself is uncertain.  A Gaussian scale-mixed
+    with nu/chi2_nu is a Student-t, so this gives the wave packet power-law-like
+    tails while keeping every other feature (magnet, levels, momentum, sentiment).
+    Exposes the same read-out API as QuantumPriceModel (x, dx, density, forecast,
+    log_likelihood, prob_bull)."""
+
+    def __init__(self, params: QPMParams, S0: float = 100.0, L: float = 1.5, N: int = 512):
+        self.p = params
+        self.S0 = float(S0)
+        m, w = mass_mixture_nodes(params.nu, params.n_mix)
+        self.weights = w
+        self.members = []
+        for mk in m:
+            q = replace(params, sigma=params.sigma * float(np.sqrt(mk)), nu=np.inf)
+            if params.k0:  # keep the intended group velocity v = 2 sigma^2 k0 for every member
+                q.k0 = params.k0 * params.sigma**2 / q.sigma**2
+            self.members.append(QuantumPriceModel(q, S0=S0, L=L, N=N))
+        self.p = params
+        self.x, self.dx, self.N = self.members[0].x, self.members[0].dx, self.members[0].N
+        self.t = 0.0
+
+    def evolve(self, T: float, n_steps: int = 200, record_every: int = 1) -> "QPMEnsemble":
+        for m in self.members:
+            m.evolve(T, n_steps=n_steps, record_every=record_every)
+        self.t = self.members[0].t
+        return self
+
+    def density(self) -> np.ndarray:
+        d = sum(w * m.density() for w, m in zip(self.weights, self.members))
+        return d / (d.sum() * self.dx)
+
+    def prob_bull(self) -> float:
+        return float(sum(w * m.prob_bull() for w, m in zip(self.weights, self.members)))
+
+    def forecast(self, r: float = 0.0, T: float | None = None, strikes: Sequence[float] = ()) -> dict:
+        return QuantumPriceModel.forecast(self, r=r, T=T, strikes=strikes)  # only uses density/x/dx/S0/t/prob_bull
+
+    def log_likelihood(self, realised_x: Sequence[float]) -> float:
+        return QuantumPriceModel.log_likelihood(self, realised_x)
+
+
+def build_model(params: QPMParams, S0: float = 100.0, L: float = 1.5, N: int = 512):
+    """QuantumPriceModel for a pure state, QPMEnsemble when params.nu is finite."""
+    if np.isfinite(params.nu) and params.n_mix > 1:
+        return QPMEnsemble(params, S0=S0, L=L, N=N)
+    return QuantumPriceModel(params, S0=S0, L=L, N=N)
 
 
 # ----------------------------------------------------------------------------
@@ -375,10 +489,15 @@ def calibrate(
     L: float = 1.5,
     n_steps: int = 120,
     maxiter: int = 300,
+    starts: Sequence[dict[str, float]] = (),
 ) -> tuple[QPMParams, float]:
     """Generic calibration: minimise `objective(model_after_T)` over the
     parameters listed in `free` ({name: (lo, hi)}).  Names may be top-level
     QPMParams fields or 'potential.<field>' for Potential fields.
+
+    `starts` is an optional list of extra starting points ({name: value}); the
+    optimiser runs from `base` and from each of them and keeps the best, which
+    guards against the degenerate theta -> 1 solutions seen in the v1 fits.
 
     Typical objectives:
       * KL(target_density || model_density)  - fit the risk-neutral density
@@ -402,12 +521,22 @@ def calibrate(
 
     def loss(u: np.ndarray) -> float:
         vec = lo + (hi - lo) / (1 + np.exp(-u))  # sigmoid box constraint
-        m = QuantumPriceModel(build(vec), S0=S0, N=N, L=L).evolve(T, n_steps=n_steps, record_every=n_steps)
-        return objective(m)
+        m = build_model(build(vec), S0=S0, N=N, L=L).evolve(T, n_steps=n_steps, record_every=n_steps)
+        val = objective(m)
+        return val if np.isfinite(val) else 1e30
 
-    x0 = np.array([getattr(base.potential, n.split(".", 1)[1]) if n.startswith("potential.") else getattr(base, n) for n in names], dtype=float)
-    x0 = np.clip(x0, lo + 1e-6 * (hi - lo), hi - 1e-6 * (hi - lo))
-    u0 = np.log((x0 - lo) / (hi - x0))
-    res = minimize(loss, u0, method="Nelder-Mead", options={"maxiter": maxiter, "xatol": 1e-4, "fatol": 1e-7})
-    best = lo + (hi - lo) / (1 + np.exp(-res.x))
-    return build(best), float(res.fun)
+    def get(params: QPMParams, n: str) -> float:
+        return getattr(params.potential, n.split(".", 1)[1]) if n.startswith("potential.") else getattr(params, n)
+
+    x0s = [np.array([get(base, n) for n in names], dtype=float)]
+    for s in starts:
+        x0s.append(np.array([s.get(n, get(base, n)) for n in names], dtype=float))
+    best_u, best_f = None, np.inf
+    for x0 in x0s:
+        x0 = np.clip(x0, lo + 1e-6 * (hi - lo), hi - 1e-6 * (hi - lo))
+        u0 = np.log((x0 - lo) / (hi - x0))
+        res = minimize(loss, u0, method="Nelder-Mead", options={"maxiter": maxiter, "xatol": 1e-4, "fatol": 1e-7})
+        if res.fun < best_f:
+            best_u, best_f = res.x, float(res.fun)
+    best = lo + (hi - lo) / (1 + np.exp(-best_u))
+    return build(best), best_f

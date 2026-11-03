@@ -1,4 +1,6 @@
-# QPM on real stocks: walk-forward results
+# QPM on real stocks: walk-forward results (v1)
+
+> Superseded by the v2 ablation in [`backtest.py`](backtest.py); run instructions in [`BACKTEST.md`](BACKTEST.md). This file stays as the v1 record.
 
 Out-of-sample test of the Quantum Price Model ([`qpm.py`](qpm.py)) on real daily prices.
 Scripts: [`real_test.py`](real_test.py) (density, direction, trading) and [`swing_test.py`](swing_test.py) (swing-size accuracy).
