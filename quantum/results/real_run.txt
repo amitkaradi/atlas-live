@@ -1,0 +1,64 @@
+SPY: 4234 days 2010-01-04 .. 2026-11-02, last close 752.10
+QQQ: 4234 days 2010-01-04 .. 2026-11-02, last close 681.09
+AAPL: 4234 days 2010-01-04 .. 2026-11-02, last close 338.32
+NVDA: 4234 days 2010-01-04 .. 2026-11-02, last close 202.06
+TSLA: 4112 days 2010-06-29 .. 2026-11-02, last close 403.82
+JPM: 4234 days 2010-01-04 .. 2026-11-02, last close 340.58
+XOM: 4234 days 2010-01-04 .. 2026-11-02, last close 179.67
+KO: 4234 days 2010-01-04 .. 2026-11-02, last close 95.83
+
+walk-forward done in 238s
+
+================ 1. DENSITY FORECAST (out-of-sample, 5-day returns) ================
+Mean log-likelihood per forecast, minus Gaussian (Black-Scholes).  > 0 = better than BS.
+
+        student_t     qpm  ewma_gauss  ewma_t  ewma_qpm
+ticker                                                 
+AAPL       0.0365  0.0259      0.0233  0.0561    0.0456
+JPM        0.1023  0.0477      0.1028  0.1313    0.1187
+KO         0.1989  0.1834      0.2156  0.2318    0.2185
+NVDA       0.0516  0.0362      0.0229  0.0700    0.0535
+QQQ        0.0686  0.0440      0.1212  0.1390    0.1291
+SPY        0.1711  0.1228      0.2231  0.2446    0.2275
+TSLA       0.0354  0.0365      0.0387  0.0450    0.0492
+XOM        0.1653  0.1557      0.1836  0.2351    0.2246
+ALL        0.1037  0.0815      0.1164  0.1441    0.1333
+
+  (5208 weekly forecasts, 2014-01 to 2026-10)
+
+Interval coverage, all tickers (target 90% and 98%):
+          gauss  student_t   qpm  ewma_gauss  ewma_t  ewma_qpm
+90% band   89.3       87.9  88.3        88.7    87.1      87.5
+98% band   95.6       97.0  96.9        96.1    97.3      97.2
+        qpm vs gauss      mean gain +0.0815/forecast, t-stat +4.90
+        qpm vs student_t  mean gain -0.0222/forecast, t-stat -3.90
+   ewma_qpm vs ewma_t     mean gain -0.0108/forecast, t-stat -3.87
+
+Fitted QPM parameters (median over yearly fits):
+        sigma  theta  magnet_depth  magnet_width   t_df  fit_sec
+ticker                                                          
+AAPL    0.279  0.729       177.780         0.031  6.356     16.3
+JPM     0.286  0.697       223.529         0.028  4.728     16.3
+KO      0.214  0.657       346.366         0.025  6.363     16.0
+NVDA    0.428  0.743       153.446         0.047  6.099     16.2
+QQQ     0.226  0.691       220.229         0.029  5.366     15.4
+SPY     0.230  0.698       319.066         0.018  3.960     16.0
+TSLA    0.725  0.700       233.344         0.072  6.554     16.3
+XOM     0.416  0.657       319.084         0.015  4.349     15.9
+
+================ 2. DIRECTION / TRADING (weekly, long or cash) ================
+        hit_rate  brier_qpm  brier_clim  pct_long  bh_cagr  bh_sharpe  bh_maxdd  qpm_cagr  qpm_sharpe  qpm_maxdd  mom_cagr  mom_sharpe  mom_maxdd
+ticker                                                                                                                                           
+AAPL       0.579      0.247       0.246     0.985    0.246      0.786     0.370     0.254       0.835      0.370     0.183       0.885      0.230
+JPM        0.579      0.249       0.246     1.000    0.176      0.649     0.444     0.176       0.649      0.444     0.036       0.215      0.349
+KO         0.570      0.249       0.246     0.991    0.094      0.513     0.368     0.079       0.453      0.378    -0.001      -0.007      0.329
+NVDA       0.591      0.246       0.244     0.983    0.640      1.117     0.662     0.626       1.100      0.662     0.376       0.950      0.444
+QQQ        0.596      0.247       0.243     0.998    0.186      0.858     0.370     0.186       0.855      0.370     0.145       1.024      0.177
+SPY        0.587      0.250       0.245     0.986    0.137      0.797     0.336     0.135       0.855      0.258     0.090       0.879      0.133
+TSLA       0.521      0.251       0.251     0.969    0.358      0.568     0.728     0.309       0.507      0.728     0.272       0.611      0.552
+XOM        0.535      0.250       0.250     0.608    0.103      0.366     0.630     0.070       0.352      0.375     0.047       0.244      0.482
+ALL        0.570      0.249       0.246     0.940      NaN        NaN       NaN       NaN         NaN        NaN       NaN         NaN        NaN
+
+  bh = buy & hold, qpm = long when QPM P(up) > 0.5, mom = long when 20-day return > 0.  No costs.
+
+results in C:\Users\עמית\AppData\Local\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude\scratch-workspaces\c4d4eee6-67df-4925-90f2-430eef283880\91f200ba-6c0c-4f21-a462-c949d15b985f\scratch-2026-11-03-b1d1a4\quantum\results, figures R1/R2 in C:\Users\עמית\AppData\Local\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude\scratch-workspaces\c4d4eee6-67df-4925-90f2-430eef283880\91f200ba-6c0c-4f21-a462-c949d15b985f\scratch-2026-11-03-b1d1a4\quantum\figures

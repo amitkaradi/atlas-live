@@ -303,7 +303,7 @@ class QuantumPriceModel:
         """Everything a trader wants out of |psi|^2 at the current time."""
         p = self.density()
         x, dx = self.x, self.dx
-        cdf = np.cumsum(p) * dx
+        cdf = np.cumsum(p) * dx - 0.5 * p * dx  # midpoint rule: a grid point's own bin is split half below, half above
         S = self.S0 * np.exp(x)
         mean_x = np.sum(x * p) * dx
         var_x = np.sum((x - mean_x) ** 2 * p) * dx

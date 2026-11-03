@@ -1,0 +1,70 @@
+5208 weekly forecasts, 8 tickers, 2014-01 to 2026-10
+
+=== A. Interval coverage: % of weeks the realised move fell inside the forecast band ===
+          Gaussian (BS)  Student-t   QPM  EWMA Gaussian  EWMA Student-t  EWMA QPM
+50% band           56.8       49.4  49.3           52.8            46.0      45.5
+80% band           81.8       78.1  78.6           81.0            76.6      77.0
+90% band           89.3       87.9  88.3           88.7            87.1      87.5
+95% band           92.9       93.3  93.5           92.8            93.2      93.5
+98% band           95.6       97.0  96.9           96.1            97.3      97.2
+
+=== B. Downside VaR: % of weeks the loss was worse than the forecast threshold ===
+                5% VaR breaches %  Kupiec p (5%)  1% VaR breaches %  Kupiec p (1%)
+Gaussian (BS)               5.914          0.003              2.592            0.0
+Student-t                   6.932          0.000              1.824            0.0
+QPM                         5.895          0.004              1.824            0.0
+EWMA Gaussian               6.720          0.000              2.535            0.0
+EWMA Student-t              7.969          0.000              1.863            0.0
+EWMA QPM                    6.912          0.000              1.805            0.0
+
+=== C. Does a bigger predicted swing mean a bigger actual swing? ===
+Spearman rank correlation of predicted typical move vs realised |move - median|, and the
+ratio of average realised to average predicted move (1.00 = right size on average).
+                rank corr  realised/predicted  mean abs error of size (pct pts)
+Gaussian (BS)       0.376               0.957                             2.070
+Student-t           0.378               1.026                             2.016
+QPM                 0.376               1.025                             1.999
+EWMA Gaussian       0.448               0.972                             1.974
+EWMA Student-t      0.446               1.041                             1.934
+EWMA QPM            0.452               1.041                             1.913
+
+=== D. Calibration by predicted-size quintile (EWMA QPM vs static QPM) ===
+
+QPM:
+         predicted typical move %  actual typical move %  inside 90% band %
+abs_qpm                                                                    
+calmest                      1.43                   1.67              85.80
+2                            1.86                   2.16              86.07
+3                            2.48                   2.59              88.48
+4                            3.28                   3.10              92.22
+wildest                      5.64                   5.53              89.06
+
+EWMA QPM:
+              predicted typical move %  actual typical move %  inside 90% band %
+abs_ewma_qpm                                                                    
+calmest                           1.15                   1.37              85.22
+2                                 1.73                   1.97              85.88
+3                                 2.32                   2.54              87.62
+4                                 3.27                   3.43              88.57
+wildest                           6.01                   5.78              90.40
+
+=== E. The 10 worst weeks: what probability did each model give a drop at least that big? ===
+ticker       date  move %  1-in-N Gaussian (BS)  1-in-N Student-t   1-in-N QPM  1-in-N EWMA Student-t  1-in-N EWMA QPM
+  TSLA 2020-03-09   -26.8          9.081790e+05            2069.0 6.446000e+03                   43.0             39.0
+  NVDA 2018-11-14   -26.6          3.664014e+08             842.0 3.733500e+04                  170.0            307.0
+   JPM 2020-03-02   -23.1          1.000000e+12         2829121.0 1.000000e+12                11107.0         548990.0
+  AAPL 2025-04-01   -22.7          1.000000e+12        73659173.0 1.047924e+11             23916889.0     9351856744.0
+   XOM 2020-03-02   -22.3          1.000000e+12            9096.0 1.446310e+05                  423.0            450.0
+  TSLA 2025-05-29   -20.6          2.430000e+02             141.0 1.410000e+02                  108.0            108.0
+  TSLA 2022-12-15   -20.5          1.650000e+02              70.0 6.500000e+01                  107.0            111.0
+  NVDA 2020-03-09   -20.0          8.954000e+03             358.0 2.670000e+02                   76.0             78.0
+  TSLA 2016-02-02   -18.9          8.920000e+02             212.0 1.810000e+02                  337.0            242.0
+  TSLA 2020-03-02   -18.2          9.630000e+02             228.0 2.350000e+02                   13.0             12.0
+  (1-in-N = the model's odds of a week at least this bad; 1e12 = it said essentially impossible)
+
+=== F. Coverage of the 90% band by year (static vs EWMA QPM) ===
+year      2014  2015  2016  2017  2018  2019  2020  2021  2022  2023  2024  2025  2026
+QPM       93.1  88.7  87.7  95.1  83.3  90.4  65.7  94.4  81.6  98.2  92.2  89.0  89.0
+EWMA QPM  85.8  90.9  89.0  87.0  87.3  90.9  87.0  84.6  86.3  88.5  84.6  87.0  89.6
+
+figure: C:\Users\עמית\AppData\Local\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude\scratch-workspaces\c4d4eee6-67df-4925-90f2-430eef283880\91f200ba-6c0c-4f21-a462-c949d15b985f\scratch-2026-11-03-b1d1a4\quantum\figures\R3_swing_size.png
